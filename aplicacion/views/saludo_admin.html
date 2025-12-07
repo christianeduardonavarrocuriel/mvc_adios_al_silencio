@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Bienvenido Administrador</title>  <!-- Título de la página -->
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul bonito que cambia de tono */
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            padding: 20px;  /* Un poquito de espacio en los bordes */
+            position: relative;  /* Para poder poner cosas encima */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            text-align: center;  /* Texto centrado */
+            max-width: 800px;  /* Ancho máximo */
+            width: 100%;  /* Que ocupe todo el ancho disponible */
+        }
+
+        /* La caja que contiene al ajolote */
+        .ajolote-container {
+            margin-bottom: 0px;  /* Sin espacio abajo */
+            position: relative;  /* Para poder ponerle efectos */
+            animation: float 3s ease-in-out infinite;  /* Animación de flotar para siempre */
+            display: flex;  /* Para centrar */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* El ajolote con corazón */
+        .ajolote-image {
+            width: 450px;  /* Ancho del ajolote */
+            height: auto;  /* Alto que se ajuste solo */
+            max-width: 100%;  /* Que no se salga de la pantalla */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));  /* Sombra bonita */
+        }
+
+        /* La caja que rodea a los mensajes */
+        .mensaje-container {
+            background: transparent;  /* Fondo transparente */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas redonditas */
+            padding: 0px 15px;  /* Espacios adentro */
+            margin-bottom: 5px;  /* Espacio abajo */
+            box-shadow: none;  /* Sin sombra */
+        }
+
+        /* El mensaje que dice "Hola, te doy la bienvenida..." */
+        .mensaje-bienvenida {
+            color: white;  /* Texto blanco */
+            font-size: 1.8rem;  /* Letra grande */
+            font-weight: normal;  /* Peso normal de la letra */
+            text-shadow: none;  /* Sin sombra en el texto */
+            line-height: 1.4;  /* Espacio entre líneas */
+            margin-bottom: 5px;  /* Espacio abajo */
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+        }
+
+        /* El mensaje que dice "Accede a tu perfil..." */
+        .mensaje-perfil {
+            color: white;  /* Texto blanco */
+            font-size: 1.8rem;  /* Letra grande */
+            font-weight: normal;  /* Peso normal de la letra */
+            text-shadow: none;  /* Sin sombra en el texto */
+            line-height: 3.0;  /* Mucho espacio entre líneas */
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+        }
+
+        /* El botón rosa de "ENTRAR" */
+        .boton-perfil {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito que cambia de tono */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 18px 50px;  /* Espacio adentro: arriba/abajo 18px, izquierda/derecha 50px */
+            border-radius: 50px;  /* Esquinas muy redonditas */
+            font-size: 1.4rem;  /* Letra grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);  /* Sombra rosa que le da profundidad */
+            transition: all 0.3s ease;  /* Animación suave cuando cambia */
+            text-transform: none;  /* No cambiar el texto a mayúsculas */
+            letter-spacing: 1px;  /* Espaciado entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .boton-perfil:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba 3 pixeles */
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);  /* Sombra más intensa y grande */
+        }
+
+        /* Cuando haces clic en el botón */
+        .boton-perfil:active {
+            transform: translateY(-1px);  /* Se mueve solo 1 pixel hacia arriba */
+        }
+
+        /* Animación para que el ajolote flote arriba y abajo */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* En su posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar al login de administrador -->
+    <div class="close-button" onclick="window.location.href='/inicio_administrador'">
+        <img src="../static/images/images_saludo_admin/regresar.png" alt="Regresar">
+    </div>
+
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La imagen del ajolote con corazón que se mueve -->
+        <div class="ajolote-container">
+            <img src="../static/images/images_saludo_admin/ajolote_corazon.png" 
+                 alt="Ajolote con corazón" 
+                 class="ajolote-image">
+        </div>
+
+        <!-- Los mensajes de bienvenida -->
+        <div class="mensaje-container">
+            <div class="mensaje-bienvenida">¡Hola! Te doy la bienvenida a ¡Adiós al Silencio!</div>
+            <div class="mensaje-perfil">Accede a tu perfil de administrador presionado el botón</div>
+        </div>
+
+        <!-- El botón rosa para entrar al perfil -->
+        <button class="boton-perfil" onclick="window.location.href='/perfil_admin'">
+            ENTRAR
+        </button>
+    </div>
+</body>
+</html>

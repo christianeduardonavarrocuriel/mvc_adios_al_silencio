@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Esto le dice al navegador qué tipo de caracteres usar (acentos, ñ, etc.) -->
+    <meta charset="UTF-8">
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Lección Completada - Adiós al Silencio</title>
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            /* Fondo azul que cambia de tono, igual que las otras páginas */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);
+            height: 100vh;  /* Que ocupe toda la pantalla de alto */
+            width: 100vw;  /* Que ocupe toda la pantalla de ancho */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            padding: 20px;  /* Un poquito de espacio en los bordes */
+            overflow: hidden;  /* Para que no salga scroll */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            text-align: center;  /* Texto centrado */
+            max-width: 800px;  /* Ancho máximo */
+            width: 100%;  /* Que use todo el ancho disponible */
+        }
+
+        /* El mensaje de felicitación */
+        .mensaje {
+            color: white;  /* Texto blanco */
+            font-size: 2rem;  /* Texto grande */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra para que se vea mejor */
+            line-height: 1.4;  /* Espaciado entre líneas */
+            margin-bottom: 30px;  /* Espacio abajo */
+            font-family: Arial, sans-serif;  /* Letra normal */
+        }
+
+        /* El botón para continuar */
+        .boton-continuar {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa que cambia */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 20px 60px;  /* Espacio dentro del botón */
+            border-radius: 50px;  /* Muy redondeado */
+            font-size: 1.6rem;  /* Texto grande */
+            font-weight: bold;  /* En negritas */
+            cursor: pointer;  /* Manita cuando lo toques */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Letras mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+            margin-bottom: 30px;  /* Espacio abajo */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .boton-continuar:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se eleva un poquito */
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .boton-continuar:active {
+            transform: translateY(-1px);  /* Se baja un poquito */
+        }
+
+        /* La caja que contiene al ajolote */
+        .ajolote-container {
+            position: relative;  /* Para poder posicionar cosas dentro */
+            display: flex;  /* Para centrar al ajolote */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-image {
+            width: 420px;  /* Ancho fijo */
+            height: auto;  /* Alto automático */
+            max-width: 100%;  /* Que no se salga de su contenedor */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));  /* Sombra bonita */
+        }
+    </style>
+</head>
+<body>
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- El mensaje de felicitación -->
+        <div class="mensaje">
+            ¡Perfecto! En la Lengua de Señas Mexicana es importante conocer las emociones que siente una persona a través de sus expresiones. ¡Muy bien!
+        </div>
+
+        <!-- El botón para continuar la aventura -->
+        <button class="boton-continuar" onclick="continuarAventura()">
+            Iniciar Aventura
+        </button>
+
+        <!-- La caja que contiene al ajolote -->
+        <div class="ajolote-container">
+            <!-- La imagen del ajolote haciendo dab (muy feliz) -->
+            <img src="../static/images/images_leccion00/ajolote_dab.png" 
+                 alt="Ajolote Dab" 
+                 class="ajolote-image">
+        </div>
+    </div>
+
+    <script>
+        // Esta función se ejecuta cuando haces clic en "Iniciar Aventura"
+        function continuarAventura() {
+            console.log('Continuando a las lecciones...');  // Para debugging
+            window.location.href = '/lecciones';  // Te lleva a la página de lecciones
+        }
+    </script>
+</body>
+</html>
+

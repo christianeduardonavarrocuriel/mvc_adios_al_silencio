@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">  <!-- La página está en español -->
+<head>
+    <!-- Info básica de la página -->
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Iniciar Sesion - Adios al Silencio</title>  <!-- El título que aparece en la pestaña -->
+    
+    <!-- Aquí empiezan los estilos CSS para que se vea bonita la página -->
+    <style>
+        /* Esto hace que todos los elementos no tengan espacios raros */
+        * {
+            margin: 0;  /* Sin espacios de afuera */
+            padding: 0;  /* Sin espacios de adentro */
+            box-sizing: border-box;  /* Para que los tamaños se calculen bien */
+        }
+
+        /* El fondo de toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Tipo de letra normal */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul bonito que va cambiando */
+            min-height: 100vh;  /* Que ocupe toda la pantalla de alto */
+            display: flex;  /* Para poder centrar todo */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            overflow: hidden;  /* Para que no aparezcan barras de scroll */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Poner las cosas en fila */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            width: 100%;  /* Ocupar todo el ancho */
+            max-width: 1200px;  /* Pero no más de este tamaño */
+            padding: 20px;  /* Espacio alrededor */
+            gap: 80px;  /* Espacio entre el ajolote y el formulario */
+        }
+
+        /* La parte donde está el ajolote */
+        .ajolote-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* En columna */
+            justify-content: center;  /* Centrar */
+            align-items: center;  /* Centrar */
+            padding-left: 0;  /* Sin espacio a la izquierda */
+            padding-right: 60px;  /* Espacio a la derecha */
+            margin-left: -60px;  /* Mover un poco a la izquierda */
+            gap: 30px;  /* Espacio entre elementos */
+        }
+
+        /* El personaje ajolote que se mueve */
+        .ajolote-character {
+            width: 550px;  /* Qué tan ancho */
+            height: 550px;  /* Qué tan alto */
+            animation: float 3s ease-in-out infinite;  /* Animación que lo hace flotar */
+            margin: 0;  /* Sin espacios extra */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Todo el alto también */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+        }
+
+        /* La parte donde está el formulario */
+        .form-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            max-width: 500px;  /* Pero no muy ancho */
+        }
+
+        /* El botón para regresar que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su lugar */
+            top: 30px;  /* A 30px desde arriba */
+            right: 30px;  /* A 30px desde la derecha */
+            width: 60px;  /* Ancho */
+            height: 60px;  /* Alto */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave */
+            display: flex;  /* Para centrar la imagen */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Ocupar todo el espacio */
+            height: 100%;  /* Todo el alto también */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la sombra se ve más */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* El título "Iniciar Sesion" */
+        .form-title {
+            color: white;  /* Color blanco */
+            font-size: 2.8rem;  /* Tamaño grande */
+            font-weight: bold;  /* Negritas */
+            text-align: center;  /* Centrado */
+            margin-bottom: 30px;  /* Espacio abajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            animation: slideDown 0.8s ease-out;  /* Animación que baja */
+        }
+
+        /* La caja que contiene todo el formulario */
+        .form-container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 18px;  /* Espacio entre elementos */
+            animation: slideUp 0.8s ease-out 0.2s both;  /* Animación que sube */
+        }
+
+        /* Cada grupo de campo (etiqueta + cajita para escribir) */
+        .form-group {
+            display: flex;  /* Para acomodar */
+            flex-direction: column;  /* En columna */
+            gap: 6px;  /* Espacio pequeño entre etiqueta y cajita */
+        }
+
+        /* Las etiquetas que dicen "Nombre", "Apellido", etc. */
+        .form-label {
+            color: white;  /* Color blanco */
+            font-size: 1.1rem;  /* Tamaño un poquito más grande */
+            font-weight: bold;  /* Negritas */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Las cajitas donde escribes (inputs) */
+        .form-input {
+            padding: 12px 18px;  /* Espacio adentro para que se vea bien */
+            border: none;  /* Sin borde */
+            border-radius: 50px;  /* Esquinas muy redondas */
+            font-size: 1rem;  /* Tamaño de letra normal */
+            background: rgba(255, 255, 255, 0.95);  /* Fondo casi blanco */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+            transition: all 0.3s ease;  /* Animación suave cuando cambias algo */
+            outline: none;  /* Sin el borde azul feo cuando haces clic */
+        }
+
+        /* Cuando haces clic en una cajita para escribir */
+        .form-input:focus {
+            background: white;  /* Se pone completamente blanca */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
+            transform: translateY(-2px);  /* Se mueve un poquito hacia arriba */
+        }
+
+        /* El texto que aparece cuando la cajita está vacía */
+        .form-input::placeholder {
+            color: #999;  /* Color gris */
+            font-style: italic;  /* En cursiva */
+        }
+
+        /* El enlace para registrarse */
+        .register-link {
+            text-align: center;  /* Centrado */
+            margin: 5px 0 0 0;  /* Espacio arriba */
+        }
+
+        /* El enlace "No tienes cuenta? Registrate aqui" */
+        .register-link a {
+            color: white;  /* Color blanco */
+            font-size: 1rem;  /* Tamaño normal */
+            text-decoration: underline;  /* Con línea abajo */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            transition: all 0.3s ease;  /* Animación suave */
+            font-weight: normal;  /* No tan grueso */
+        }
+
+        /* Cuando pasas el mouse por el enlace */
+        .register-link a:hover {
+            color: #E0F6FF;  /* Color azul clarito */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Sombra más fuerte */
+        }
+
+        /* El botón principal "Iniciar Sesion" */
+        .submit-button {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 15px 35px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas muy redondas */
+            font-size: 1.2rem;  /* Texto un poco más grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 8px;  /* Espacio arriba */
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .submit-button:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .submit-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+
+        /* El botón azul para administradores */
+        .admin-button {
+            background: linear-gradient(135deg, #4169E1, #6495ED);  /* Fondo azul bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 12px 30px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas redondas */
+            font-size: 1rem;  /* Tamaño normal */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 10px;  /* Espacio arriba */
+            box-shadow: 0 4px 15px rgba(65, 105, 225, 0.4);  /* Sombra azul */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón de admin */
+        .admin-button:hover {
+            background: linear-gradient(135deg, #1E3A8A, #4169E1);  /* Azul más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 6px 20px rgba(65, 105, 225, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón de admin */
+        .admin-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+
+        /* Las animaciones que hacen que las cosas se muevan bonito */
+        
+        /* Animación para que el ajolote flote */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* Posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+
+        /* Animación para que el título baje */
+        @keyframes slideDown {
+            from {
+                opacity: 0;  /* Invisible */
+                transform: translateY(-30px);  /* Arriba */
+            }
+            to {
+                opacity: 1;  /* Visible */
+                transform: translateY(0);  /* Posición normal */
+            }
+        }
+
+        /* Animación para que el formulario suba */
+        @keyframes slideUp {
+            from {
+                opacity: 0;  /* Invisible */
+                transform: translateY(30px);  /* Abajo */
+            }
+            to {
+                opacity: 1;  /* Visible */
+                transform: translateY(0);  /* Posición normal */
+            }
+        }
+
+        /* La caja donde aparecen los animalitos de la contraseña */
+        .password-display {
+            min-height: 60px;  /* Alto mínimo */
+            padding: 10px 15px;  /* Espacio adentro */
+            border: 2px dashed rgba(255, 255, 255, 0.5);  /* Borde punteado blanco */
+            border-radius: 12px;  /* Esquinas redondeadas */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo blanquito transparente */
+            backdrop-filter: blur(10px);  /* Efecto de vidrio empañado */
+            display: flex;  /* Para acomodar los animalitos */
+            display: flex;  /* Para acomodar los animalitos */
+            flex-wrap: wrap;  /* Si no caben, que se vayan abajo */
+            gap: 8px;  /* Espacio entre animalitos */
+            align-items: center;  /* Centrar vertical */
+            margin-bottom: 10px;  /* Espacio abajo */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* El texto que aparece cuando no hay animalitos */
+        .password-display:empty::before {
+            content: "Haz clic en los animales para crear tu contraseña";  /* El texto que se muestra */
+            color: rgba(255, 255, 255, 0.7);  /* Color blanco transparente */
+            font-style: italic;  /* En cursiva */
+            font-size: 0.9rem;  /* Un poquito más chico */
+        }
+
+        /* Cada animalito en la contraseña */
+        .password-animal {
+            width: 35px;  /* Ancho */
+            height: 35px;  /* Alto */
+            border-radius: 8px;  /* Esquinas redondeadas */
+            object-fit: cover;  /* Que la imagen se ajuste bien */
+            border: 2px solid rgba(255, 255, 255, 0.8);  /* Borde blanco */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra */
+            animation: animalPop 0.3s ease-out;  /* Animación cuando aparece */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse por un animalito */
+        .password-animal:hover {
+            transform: scale(1.1);  /* Se hace más grande */
+            border-color: #ff6b6b;  /* Borde rojo */
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);  /* Sombra roja */
+        }
+
+        /* Animación para cuando aparece un animalito */
+        @keyframes animalPop {
+            0% { transform: scale(0); opacity: 0; }  /* Empieza invisible y chiquito */
+            50% { transform: scale(1.1); opacity: 0.8; }  /* Se hace grande */
+            100% { transform: scale(1); opacity: 1; }  /* Tamaño normal */
+        }
+
+        /* La caja donde están los botones de animalitos */
+        .shape-controls {
+            display: grid;  /* Como una tabla */
+            grid-template-columns: repeat(4, 1fr);  /* 4 columnas iguales */
+            gap: 10px;  /* Espacio entre botones */
+            margin-top: 10px;  /* Espacio arriba */
+            padding: 15px;  /* Espacio adentro */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo blanquito transparente */
+            border-radius: 12px;  /* Esquinas redondeadas */
+            backdrop-filter: blur(10px);  /* Efecto de vidrio empañado */
+        }
+
+        /* Cada botón de animalito */
+        .shape-btn {
+            width: 45px;  /* Ancho */
+            height: 45px;  /* Alto */
+            border: none;  /* Sin borde */
+            border-radius: 12px;  /* Esquinas redondeadas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave */
+            display: flex;  /* Para centrar la imagen */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            background: rgba(255, 255, 255, 0.9);  /* Fondo casi blanco */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);  /* Sombra */
+            overflow: hidden;  /* Para que no se salga nada */
+        }
+
+        /* Las imágenes dentro de los botones de animalitos */
+        .shape-btn.animal img {
+            width: 35px;  /* Ancho */
+            height: 35px;  /* Alto */
+            object-fit: cover;  /* Que se ajuste bien */
+            border-radius: 6px;  /* Esquinas redondeadas */
+        }
+
+        /* Cuando pasas el mouse por un botón de animalito */
+        .shape-btn:hover {
+            transform: translateY(-2px) scale(1.1);  /* Se mueve hacia arriba y se hace más grande */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra más fuerte */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra más fuerte */
+            background: rgba(255, 255, 255, 1);  /* Fondo completamente blanco */
+        }
+
+        /* Cuando haces clic en un botón */
+        .shape-btn:active {
+            transform: translateY(-1px) scale(1.05);  /* Se mueve menos */
+        }
+
+        /* El botón rojo para borrar todo */
+        .clear-btn {
+            grid-column: span 4;  /* Que ocupe las 4 columnas */
+            width: 100%;  /* Todo el ancho */
+            height: 40px;  /* Alto */
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);  /* Fondo rojo bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            border-radius: 20px;  /* Esquinas redondeadas */
+            font-size: 1rem;  /* Tamaño normal */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 8px;  /* Espacio arriba */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón de borrar */
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #ff5252, #f44336);  /* Rojo más oscuro */
+            transform: translateY(-2px);  /* Se mueve hacia arriba */
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);  /* Sombra roja */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar a la página principal -->
+    <div class="close-button" onclick="window.location.href='/'">
+        <img src="../static/images/images_iniciar_sesion/regresar.png" alt="Regresar">
+    </div>
+    
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La parte izquierda con el ajolote y botón de admin -->
+        <div class="ajolote-section">
+            <!-- Botón para que los administradores entren -->
+            <button type="button" class="admin-button" onclick="window.location.href='/inicio_administrador'">
+                Iniciar Sesión de Administrador
+            </button>
+            
+            <!-- El ajolote astronauta que se mueve -->
+            <div class="ajolote-character">
+                <img src="../static/images/images_iniciar_sesion/ajolote_astronauta.png" alt="Ajolote Astronauta">
+            </div>
+        </div>
+
+        <!-- La parte derecha con el formulario -->
+        <div class="form-section">
+            <!-- El título "Iniciar Sesion" -->
+            <h1 class="form-title">Iniciar Sesión</h1>
+            
+            <!-- El formulario que se envía al servidor -->
+            <form class="form-container" action="/iniciar_sesion" method="POST" id="login-nino-form">
+                
+                <!-- Campo para escribir el nombre -->
+                <div class="form-group">
+                    <!-- Etiqueta para el campo de nombre -->
+                    <label class="form-label" for="nombre">Nombre del Niño:</label>
+                    <!-- Campo de texto para el nombre -->
+                    <input 
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        class="form-input"
+                        placeholder="Nombre del niño"
+                        required
+                    >
+                </div>
+
+                <!-- Campo para escribir los apellidos -->
+                <div class="form-group">
+                    <label class="form-label" for="primer-apellido">Primer Apellido y Segundo Apellido:</label>
+                    <!-- Campo de texto para los apellidos -->
+                    <input 
+                        type="text" 
+                        id="primer-apellido-y-segundo-apellido" 
+                        name="primer_apellido-y-segundo-apellido" 
+                        class="form-input" 
+                        placeholder="Primer apellido y segundo apellido del niño"
+                        required
+                    >
+                </div>
+
+                <!-- La parte más divertida: seleccionar contraseña con animalitos -->
+                <div class="form-group">
+                    <label class="form-label" for="contrasena">Selecciona tu contrasena con animales:</label>
+                    
+                    <!-- Aquí aparecen los animalitos que vas seleccionando -->
+                    <div class="password-display" id="password-display" style="position: relative;">
+                    </div>
+                    
+                    <!-- Campo oculto que guarda la contraseña para enviarla al servidor -->
+                    <input 
+                        type="hidden"
+                        id="password_animales" 
+                        name="password_animales" 
+                        required
+                    >
+                    
+                    <!-- Los botones de animalitos para crear la contraseña -->
+                    <div class="shape-controls">
+                        <!-- Botón del ajolote -->
+                        <button type="button" class="shape-btn animal" data-shape="ajolote">
+                            <img src="../static/images/images_emojis/ajolote_cara.png" alt="Ajolote">
+                        </button>
+                        <!-- Botón del borrego -->
+                        <button type="button" class="shape-btn animal" data-shape="borrego">
+                            <img src="../static/images/images_emojis/borrego_cara.png" alt="Borrego">
+                        </button>
+                        <!-- Botón del oso -->
+                        <button type="button" class="shape-btn animal" data-shape="oso">
+                            <img src="../static/images/images_emojis/oso.png" alt="Oso">
+                        </button>
+                        <!-- Botón del perro -->
+                        <button type="button" class="shape-btn animal" data-shape="perro">
+                            <img src="../static/images/images_emojis/perro.png" alt="Perro">
+                        </button>
+                        <!-- Botón para borrar todos los animalitos -->
+                        <button type="button" class="clear-btn">Borrar</button>
+                    </div>
+                </div>
+
+                <!-- Mensaje de error que aparece cuando algo está mal -->
+                <div id="error-msg" style="display:none;color:#ffdddd;background:rgba(255,0,0,0.35);padding:10px 15px;border-radius:12px;font-weight:bold;text-align:center;"></div>
+                
+                <!-- El botón principal para iniciar sesión -->
+                <button type="submit" class="submit-button">Iniciar Sesión</button>
+
+                <!-- Enlace para registrarse si no tienes cuenta -->
+                <div class="register-link">
+                    <a href="/registrar_tutor">¿No tienes cuenta? Regístrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Aquí empieza el código JavaScript que hace que todo funcione -->
+    <script>
+        // Variables para guardar la contraseña de animalitos
+        var animalPassword = [];  // Lista donde guardamos los animalitos
+        var maxAnimals = 4;  // Máximo de animalitos permitidos
+        
+        // Función para actualizar la pantalla donde se ven los animalitos
+        function updatePasswordDisplay() {
+            var display = document.getElementById('password-display');  // La caja donde aparecen
+            var hiddenInput = document.getElementById('password_animales');  // El campo oculto
+            
+            display.innerHTML = '';  // Borrar todo lo que había antes
+            
+            // Por cada animalito que hayamos seleccionado
+            for (var i = 0; i < animalPassword.length; i++) {
+                var animalName = animalPassword[i];  // Nombre del animalito
+                var img = document.createElement('img');  // Crear una imagen nueva
+                
+                // Decidir qué imagen usar dependiendo del animalito
+                img.src = '../static/images/images_emojis/' + animalName + '_cara.png';
+                if (animalName === 'oso' || animalName === 'perro') {
+                    img.src = '../static/images/images_emojis/' + animalName + '.png';
+                }
+                
+                img.className = 'password-animal';  // Darle la clase CSS
+                img.alt = animalName;  // Texto alternativo
+                img.title = animalName + ' - Clic para eliminar';  // Tooltip
+                
+                // Cuando haces clic en un animalito, se borra
+                img.onclick = (function(index) {
+                    return function() {
+                        animalPassword.splice(index, 1);  // Quitar el animalito de la lista
+                        updatePasswordDisplay();  // Actualizar la pantalla
+                    };
+                })(i);
+                
+                display.appendChild(img);  // Agregar la imagen a la pantalla
+            }
+            
+            // Guardar la contraseña en el campo oculto
+            hiddenInput.value = animalPassword.join(',');
+        }
+        
+        // Cuando la página termina de cargar, configurar todo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Buscar todos los botones de animalitos
+            var animalButtons = document.querySelectorAll('.shape-btn.animal');
+            
+            // Para cada botón de animalito
+            for (var i = 0; i < animalButtons.length; i++) {
+                animalButtons[i].addEventListener('click', function() {
+                    var animalType = this.dataset.shape;  // Qué animalito es
+                    
+                    // Si ya hay muchos animalitos, mostrar error
+                    if (animalPassword.length >= maxAnimals) {
+                        showError('Solo puedes seleccionar ' + maxAnimals + ' animales maximo');
+                        return;
+                    }
+                    
+                    // Agregar el animalito a la contraseña
+                    animalPassword.push(animalType);
+                    updatePasswordDisplay();  // Actualizar la pantalla
+                    hideError();  // Esconder cualquier error
+                    
+                    // Hacer una pequeña animación al botón
+                    this.style.transform = 'scale(0.9)';  // Hacer el botón más pequeñito
+                    var self = this;  // Guardar referencia al botón
+                    setTimeout(function() {
+                        self.style.transform = '';  // Volver al tamaño normal
+                    }, 150);  // Esperar 150 milisegundos
+                });
+            }
+            
+            // Configurar el botón "Borrar Todo"
+            document.querySelector('.clear-btn').addEventListener('click', function() {
+                animalPassword = [];  // Vaciar la lista de animalitos
+                updatePasswordDisplay();  // Actualizar la pantalla
+                hideError();  // Esconder cualquier error
+                
+                // Hacer que el botón se vea diferente por un momento
+                this.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
+                var self = this;  // Guardar referencia al botón
+                setTimeout(function() {
+                    self.style.background = '';  // Volver al color original
+                }, 200);  // Esperar 200 milisegundos
+            });
+            
+            // Función para mostrar mensajes de error (cuando algo sale mal)
+            function showError(message) {
+                var errorDiv = document.getElementById('error-msg');  // La caja del error
+                errorDiv.textContent = message;  // Poner el mensaje
+                errorDiv.style.display = 'block';  // Mostrarlo
+                setTimeout(hideError, 4000);  // Esconderlo después de 4 segundos
+            }
+            
+            // Función para esconder mensajes de error
+            function hideError() {
+                var errorDiv = document.getElementById('error-msg');  // La caja del error
+                errorDiv.style.display = 'none';  // Esconderlo
+            }
+            
+            // Configurar el formulario cuando se envía
+            document.getElementById('login-nino-form').addEventListener('submit', function(e) {
+                // Si no hay animalitos seleccionados, mostrar error
+                if (animalPassword.length === 0) {
+                    e.preventDefault();  // No enviar el formulario
+                    showError('Debes seleccionar al menos un animal para tu contrasena');
+                    return false;  // Parar aquí
+                }
+                
+                // Si no hay exactamente 4 animalitos, mostrar error
+                if (animalPassword.length !== 4) {
+                    e.preventDefault();  // No enviar el formulario
+                    showError('Debes seleccionar exactamente ' + maxAnimals + ' animales');
+                    return false;  // Parar aquí
+                }
+                
+                // Esto es para que los programadores vean qué contraseña se eligió
+                console.log('Contrasena de animales:', animalPassword.join(','));
+                return true;  // Todo está bien, enviar el formulario
+            });
+            
+            updatePasswordDisplay();  // Mostrar la pantalla inicial
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Esto le dice al navegador qué tipo de caracteres usar (acentos, ñ, etc.) -->
+    <meta charset="UTF-8">
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Presentación de la página - Adios al Silencio</title>
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            /* El mismo fondo azul bonito que las otras páginas */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna, uno abajo del otro */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            padding: 20px;  /* Un poquito de espacio en los bordes */
+            position: relative;  /* Para poder poner el botón de cerrar donde queramos */
+        }
+
+        /* El botón de cerrar que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su lugar */
+            top: 30px;  /* A 30 pixeles desde arriba */
+            right: 30px;  /* A 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave cuando cambia */
+            display: flex;  /* Para centrar la imagen */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de cerrar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de cerrar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            text-align: center;  /* Texto centrado */
+            max-width: 800px;  /* Ancho máximo */
+            width: 100%;  /* Que use todo el ancho disponible */
+        }
+
+        /* Donde está el ajolote */
+        .ajolote-container {
+            margin-bottom: 0px;  /* Sin espacio abajo */
+            position: relative;  /* Para poder mover cosas si es necesario */
+            /* Quitamos la animación para que vaya más rápido */
+            display: flex;  /* Para centrar el ajolote */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-image {
+            width: 450px;  /* Ancho fijo */
+            height: auto;  /* Alto que se ajuste automáticamente */
+            max-width: 100%;  /* No se salga de la pantalla */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));  /* Sombra bonita abajo */
+        }
+
+        /* La caja donde va el mensaje */
+        .mensaje-container {
+            background: transparent;  /* Fondo transparente */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas redonditas */
+            padding: 0px 15px;  /* Un poquito de espacio adentro */
+            margin-bottom: 5px;  /* Espacio abajo */
+            box-shadow: none;  /* Sin sombra */
+        }
+
+        /* El mensaje de bienvenida */
+        .mensaje {
+            color: white;  /* Texto blanco */
+            font-size: 2rem;  /* Texto grande */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            line-height: 1.4;  /* Espacio entre líneas */
+            margin-bottom: 5px;  /* Espacio abajo */
+            font-family: Arial, sans-serif;  /* Letra normal */
+        }
+
+        /* El botón rosa de "continuar" */
+        .boton-continuar {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa que cambia */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 20px 60px;  /* Espacio adentro del botón */
+            border-radius: 50px;  /* Muy redondito */
+            font-size: 1.6rem;  /* Texto grande */
+            font-weight: bold;  /* Texto en negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);  /* Sombra rosa bonita */
+            transition: all 0.3s ease;  /* Animación suave cuando cambia */
+            text-transform: none;  /* El texto normal, sin mayúsculas raras */
+            letter-spacing: 1px;  /* Un poquito de espacio entre las letras */
+            margin-top: 10px;  /* Espacio arriba */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .boton-continuar:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Fondo un poquito más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);  /* Sombra más grande */
+        }
+
+        /* Cuando haces clic en el botón */
+        .boton-continuar:active {
+            transform: translateY(-1px);  /* Se mueve un poquito hacia arriba */
+        }
+
+        /* Esta parte estaba comentada - era una animación de flotar que se quitó para que vaya más rápido
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        */
+    </style>
+</head>
+<body>
+
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- Donde está el ajolote -->
+        <div class="ajolote-container">
+            <img src="../static/images/images_saludo_chiquillo/ajolote_ramen.png" 
+                 alt="Ajolote en patineta" 
+                 class="ajolote-image">
+        </div>
+
+        <!-- El mensaje que aparece -->
+        <div class="mensaje-container">
+            <div class="mensaje">Antes de comenzar, viajaremos a las lecciones que se tomarán</div>
+        </div>
+
+        <!-- El botón rosa para continuar -->
+        <button class="boton-continuar" onclick="reproducirSonidoBoton(); setTimeout(function() { window.location.href='/lecciones'; }, 300);">
+            CONTINUAR
+        </button>
+    </div>
+
+    <!-- El sonido que se reproduce cuando haces clic en el botón -->
+    <!-- Este botón reproduce "MI" - la tercera y última nota de nuestra secuencia musical -->
+    <!-- Secuencia completa: DO → RE → MI (escala musical ascendente) -->
+    <audio id="audioBoton" preload="auto">
+        <source src="../static/audio/audio_botones/mi.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- El código JavaScript que hace que funcione el sonido -->
+    <script>
+        // Función para que suene el botón cuando le haces clic
+        function reproducirSonidoBoton() {
+            try {
+                const audioBoton = document.getElementById('audioBoton');  // Buscamos el audio
+                if (audioBoton) {  // Si lo encontramos
+                    audioBoton.currentTime = 0;  // Lo ponemos al principio
+                    audioBoton.play().catch(function(error) {  // Lo reproducimos
+                        console.log('Error reproduciendo sonido del botón:', error);  // Si no puede, avisamos
+                    });
+                }
+            } catch (error) {  // Si algo sale mal
+                console.log('Error al acceder al audio del botón:', error);  // Avisamos del problema
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>¡Hola Chiquillo!</title>  <!-- Título de la página -->
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul bonito que cambia de tono */
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            padding: 20px;  /* Un poquito de espacio en los bordes */
+            position: relative;  /* Para poder poner cosas encima */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            justify-content: center;  /* Centrar vertical */
+            text-align: center;  /* Texto centrado */
+            max-width: 800px;  /* Ancho máximo */
+            width: 100%;  /* Que ocupe todo el ancho disponible */
+        }
+
+        /* La caja que contiene al ajolote */
+        .ajolote-container {
+            margin-bottom: 0px;  /* Sin espacio abajo */
+            position: relative;  /* Para poder ponerle efectos */
+            animation: float 3s ease-in-out infinite;  /* Animación de flotar para siempre */
+            display: flex;  /* Para centrar */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* El ajolote en patineta */
+        .ajolote-image {
+            width: 450px;  /* Ancho del ajolote */
+            height: auto;  /* Alto que se ajuste solo */
+            max-width: 100%;  /* Que no se salga de la pantalla */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));  /* Sombra bonita */
+        }
+
+        /* La caja que rodea a los mensajes */
+        .mensaje-container {
+            background: transparent;  /* Fondo transparente */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas redonditas */
+            padding: 0px 15px;  /* Espacios adentro */
+            margin-bottom: 5px;  /* Espacio abajo */
+            box-shadow: none;  /* Sin sombra */
+        }
+
+        /* El mensaje que dice "Hola, te doy la bienvenida..." */
+        .mensaje-bienvenida {
+            color: white;  /* Texto blanco */
+            font-size: 2rem;  /* Letra grande */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            line-height: 1.4;  /* Espacio entre líneas */
+            margin-bottom: 5px;  /* Espacio abajo */
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+        }
+
+        /* El mensaje que dice "Vamos a divertirnos..." */
+        .mensaje-perfil {
+            color: white;  /* Texto blanco */
+            font-size: 2rem;  /* Letra grande */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            line-height: 1.4;  /* Espacio entre líneas */
+            margin-bottom: 5px;  /* Espacio abajo */
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+        }
+
+        /* El botón rosa de "CONTINUAR" */
+        .boton-continuar {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito que cambia de tono */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 20px 60px;  /* Espacio adentro: arriba/abajo 20px, izquierda/derecha 60px */
+            border-radius: 50px;  /* Esquinas muy redonditas */
+            font-size: 1.6rem;  /* Letra grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);  /* Sombra rosa que le da profundidad */
+            transition: all 0.3s ease;  /* Animación suave cuando cambia */
+            text-transform: none;  /* No cambiar el texto a mayúsculas */
+            letter-spacing: 1px;  /* Espaciado entre letras */
+            margin-top: 10px;  /* Espacio arriba del botón */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .boton-continuar:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba 3 pixeles */
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);  /* Sombra más intensa y grande */
+        }
+
+        /* Cuando haces clic en el botón */
+        .boton-continuar:active {
+            transform: translateY(-1px);  /* Se mueve solo 1 pixel hacia arriba */
+        }
+
+        /* Animación para que el ajolote flote arriba y abajo */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* En su posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar a iniciar sesión -->
+
+
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La imagen del ajolote en patineta que se mueve -->
+        <div class="ajolote-container">
+            <img src="../static/images/images_saludo_chiquillo/ajolote_patineta.png" 
+                 alt="Ajolote en patineta" 
+                 class="ajolote-image">
+        </div>
+
+        <!-- Los mensajes de bienvenida -->
+        <div class="mensaje-container">
+            <div class="mensaje-bienvenida">¡Hola! Te doy la bienvenida a ¡Adiós al Silencio!</div>
+            <div class="mensaje-perfil">¡Vamos a divertirnos y aprender juntos!</div>
+        </div>
+
+        <!-- El botón rosa grande para continuar -->
+        <!-- Cuando le das clic hace dos cosas: reproduce un sonido y te lleva a la siguiente página -->
+        <button class="boton-continuar" onclick="reproducirSonidoBoton(); setTimeout(function() { window.location.href='/presentacion_lucas'; }, 300);">
+            CONTINUAR
+        </button>
+    </div>
+
+    <!-- El audio que se escucha cuando cargas la página -->
+    <audio id="audioSaludo" preload="auto">
+        <!-- El archivo de sonido que va a reproducir -->
+        <source src="../static/audio/audio_saludo_chiquillo/sintetizador_saludo.mp3" type="audio/mpeg">
+        <!-- Si tu navegador no puede reproducir audio, se muestra este mensaje -->
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- El audio que se escucha cuando haces clic en "CONTINUAR" -->
+    <audio id="audioBoton" preload="auto">
+        <!-- Usamos el sonido "do.mp3" para este botón -->
+        <source src="../static/audio/audio_botones/do.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script>
+        // Esta función reproduce el sonido cuando haces clic en "CONTINUAR"
+        function reproducirSonidoBoton() {
+            try {
+                // Busca el elemento de audio del botón
+                const audioBoton = document.getElementById('audioBoton');
+                if (audioBoton) {
+                    audioBoton.currentTime = 0; // Reinicia el audio desde el principio
+                    // Intenta reproducir el sonido
+                    audioBoton.play().catch(function(error) {
+                        console.log('Error reproduciendo sonido del botón:', error);
+                    });
+                }
+            } catch (error) {
+                // Si algo sale mal, lo anota en la consola
+                console.log('Error al acceder al audio del botón:', error);
+            }
+        }
+
+        // Esta función reproduce el sonido de saludo cuando cargas la página
+        function reproducirSonidoSaludo() {
+            try {
+                // Busca el elemento de audio del saludo
+                const audioSaludo = document.getElementById('audioSaludo');
+                if (audioSaludo) {
+                    audioSaludo.currentTime = 0; // Reinicia el audio desde el principio
+                    // Intenta reproducir el sonido
+                    audioSaludo.play().catch(function(error) {
+                        console.log('Error reproduciendo sonido de saludo:', error);
+                    });
+                }
+            } catch (error) {
+                // Si algo sale mal, lo anota en la consola
+                console.log('Error al acceder al audio de saludo:', error);
+            }
+        }
+
+        // Esto hace que se reproduzca el sonido cuando la página termine de cargar
+        window.addEventListener('load', function() {
+            // Espera un poquito antes de reproducir el sonido
+            setTimeout(function() {
+                reproducirSonidoSaludo();
+            }, 500); // Espera medio segundo después de que todo se cargue
+        });
+    </script>
+</body>
+</html>

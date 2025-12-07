@@ -1,0 +1,214 @@
+$def with (tutor)
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Información básica de la página -->
+    <meta charset="UTF-8">  <!-- Para que funcionen las letras con acentos -->
+    <title>Editar Perfil - Adios al Silencio</title>  <!-- Título que aparece en la pestaña del navegador -->
+    
+    <!-- Estilos CSS - aquí definimos cómo se ve la página -->
+    <style>
+        /* Configurar el fondo y aspecto general de toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul degradado */
+            min-height: 100vh;  /* Ocupar toda la altura de la pantalla */
+            display: flex;  /* Usar flexbox para centrar */
+            align-items: center;  /* Centrar verticalmente */
+            justify-content: center;  /* Centrar horizontalmente */
+            padding: 20px;  /* Espacio alrededor */
+        }
+        
+        /* Caja blanca donde va el formulario */
+        .container {
+            background: rgba(255, 255, 255, 0.1);  /* Fondo blanco transparente */
+            backdrop-filter: blur(10px);  /* Efecto de vidrio empañado */
+            border-radius: 20px;  /* Esquinas redondeadas */
+            padding: 40px;  /* Espacio interno */
+            max-width: 500px;  /* Ancho máximo */
+            width: 100%;  /* Ocupar todo el ancho disponible */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+        }
+        
+        /* Título principal "Editar Perfil" */
+        h1 {
+            color: white;  /* Color del texto */
+            text-align: center;  /* Centrar el texto */
+            margin-bottom: 30px;  /* Espacio debajo */
+            font-size: 2.5rem;  /* Tamaño grande */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+        
+        /* Cada grupo de campo (etiqueta + campo de entrada) */
+        .form-group {
+            margin-bottom: 20px;  /* Espacio entre grupos */
+        }
+        
+        /* Etiquetas de los campos (Nombres, Apellidos, etc.) */
+        label {
+            display: block;  /* Ocupar toda la línea */
+            color: white;  /* Color blanco */
+            font-weight: bold;  /* Texto en negritas */
+            margin-bottom: 8px;  /* Espacio debajo */
+            font-size: 1.1rem;  /* Tamaño un poco más grande */
+        }
+        
+        /* Campos de entrada de texto y listas desplegables */
+        input, select {
+            width: 100%;  /* Ocupar todo el ancho */
+            padding: 12px 16px;  /* Espacio interno */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas muy redondeadas */
+            font-size: 1rem;  /* Tamaño de texto normal */
+            background: rgba(255, 255, 255, 0.9);  /* Fondo blanco casi opaco */
+            box-sizing: border-box;  /* Incluir padding en el ancho total */
+        }
+        
+        /* Cuando el usuario hace clic en un campo */
+        input:focus, select:focus {
+            outline: none;  /* Quitar el borde azul por defecto */
+            background: white;  /* Fondo completamente blanco */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* Sombra más pronunciada */
+        }
+        
+        /* Contenedor de los botones */
+        .btn-container {
+            display: flex;  /* Poner botones en fila */
+            gap: 15px;  /* Espacio entre botones */
+            margin-top: 30px;  /* Espacio arriba */
+        }
+        
+        /* Estilos generales para todos los botones */
+        button, .btn {
+            flex: 1;  /* Cada botón ocupa el mismo espacio */
+            padding: 12px 24px;  /* Espacio interno */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas redondeadas */
+            font-size: 1.1rem;  /* Texto un poco más grande */
+            font-weight: bold;  /* Texto en negritas */
+            cursor: pointer;  /* Mostrar manita al pasar el mouse */
+            text-decoration: none;  /* Sin subrayado */
+            text-align: center;  /* Centrar texto */
+            display: inline-block;  /* Comportarse como botón */
+        }
+        
+        /* Botón principal (Guardar) - color rosa */
+        .btn-primary {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Degradado rosa */
+            color: white;  /* Texto blanco */
+        }
+        
+        /* Botón secundario (Cancelar) - transparente */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);  /* Fondo blanco transparente */
+            color: white;  /* Texto blanco */
+            border: 2px solid rgba(255, 255, 255, 0.3);  /* Borde blanco transparente */
+        }
+        
+        /* Efecto cuando pasas el mouse sobre los botones */
+        .btn:hover {
+            transform: translateY(-2px);  /* Mover hacia arriba */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* Agregar sombra */
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal del formulario -->
+    <div class="container">
+        <!-- Título de la página -->
+        <h1>Editar Perfil</h1>
+        
+        <!-- Formulario que envía datos al servidor cuando se envía -->
+        <form action="/editar_perfil" method="POST">
+            <!-- Campos ocultos - el usuario no los ve pero son necesarios -->
+            <!-- Guardan el número del tutor y un código de seguridad -->
+            <input type="hidden" id="tutor_id" name="tutor_id" value="">  <!-- Número único del tutor -->
+            <input type="hidden" id="token" name="token" value="">  <!-- Código de seguridad -->
+            
+            <!-- Campo para nombres -->
+            <div class="form-group">
+                <label for="nombres">Nombres:</label>  <!-- Etiqueta que explica qué escribir -->
+                <input type="text" id="nombres" name="nombres" placeholder="Ingresa tus nombres" required>  <!-- Campo obligatorio -->
+            </div>
+
+            <!-- Campo para apellidos -->
+            <div class="form-group">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" required>
+            </div>
+
+            <!-- Campo para email -->
+            <div class="form-group">
+                <label for="correo">Email:</label>
+                <input type="email" id="correo" name="correo" placeholder="usuario123456789@correo.com" required>  <!-- Valida formato de email -->
+            </div>
+
+            <!-- Lista desplegable para elegir el rol -->
+            <div class="form-group">
+                <label for="rol">Rol:</label>
+                <select id="rol" name="rol" required>  <!-- Lista desplegable obligatoria -->
+                    <option value="Padre">Padre/Madre</option>  <!-- Opción 1 -->
+                    <option value="Tutor">Tutor</option>  <!-- Opción 2 -->
+                    <option value="Maestro">Maestro</option>  <!-- Opción 3 -->
+                </select>
+            </div>
+
+            <!-- Campo para nueva contraseña -->
+            <div class="form-group">
+                <label for="password">Nueva Contraseña (6 caracteres):</label>
+                <input type="password" id="password" name="password" placeholder="6 caracteres" maxlength="6" required>  <!-- Máximo 6 caracteres -->
+            </div>
+
+            <!-- Campo para confirmar la contraseña -->
+            <div class="form-group">
+                <label for="verificar_password">Verificar Contraseña:</label>
+                <input type="password" id="verificar_password" name="verificar_password" placeholder="Confirma contraseña" maxlength="6" required>
+            </div>
+
+            <!-- Contenedor de botones -->
+            <div class="btn-container">
+                <!-- Botón para cancelar - no envía el formulario -->
+                <button type="button" class="btn btn-secondary" onclick="regresarAPerfil()">Cancelar</button>
+                <!-- Botón para guardar - envía el formulario -->
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Código JavaScript-->
+    <script>
+        // Esta función se ejecuta cuando la página termina de cargar
+        window.onload = function() {
+            // Buscar información en la dirección web (URL)
+            var urlParams = new URLSearchParams(window.location.search);  // Obtener parámetros de la URL
+            var tutor_id = urlParams.get('tutor_id');  // Buscar el número del tutor
+            var token = urlParams.get('token');  // Buscar el código de seguridad
+            
+            // Si encontramos el número del tutor, guardarlo en el campo oculto
+            if (tutor_id) {
+                document.getElementById('tutor_id').value = tutor_id;  // Poner el valor en el campo
+            }
+            // Si encontramos el código de seguridad, guardarlo en el campo oculto
+            if (token) {
+                document.getElementById('token').value = token;  // Poner el valor en el campo
+            }
+        };
+        
+        // Función que se ejecuta cuando el usuario hace clic en "Cancelar"
+        function regresarAPerfil() {
+            // Buscar la información de la URL otra vez
+            var urlParams = new URLSearchParams(window.location.search);
+            var tutor_id = urlParams.get('tutor_id');  // Número del tutor
+            var token = urlParams.get('token');  // Código de seguridad
+            
+            // Si tenemos ambos datos, regresar al perfil con esa información
+            if (tutor_id && token) {
+                window.location.href = '/perfil_admin?tutor_id=' + tutor_id + '&token=' + token;  // Ir al perfil con parámetros
+            } else {
+                // Si no tenemos los datos, ir al perfil sin parámetros
+                window.location.href = '/perfil_admin';
+            }
+        }
+    </script>
+</body>
+</html>

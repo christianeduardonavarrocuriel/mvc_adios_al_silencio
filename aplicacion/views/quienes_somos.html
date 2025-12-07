@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">  <!-- La página está en español -->
+<head>
+    <!-- Info básica de la página -->
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Quiénes Somos - Adios al Silencio</title>  <!-- El título que aparece en la pestaña -->
+    
+    <!-- Aquí empiezan los estilos CSS para que se vea bonita la página -->
+    <style>
+        /* Esto hace que todos los elementos no tengan espacios raros */
+        * {
+            margin: 0;  /* Sin espacios de afuera */
+            padding: 0;  /* Sin espacios de adentro */
+            box-sizing: border-box;  /* Para que los tamaños se calculen bien */
+        }
+
+        /* El fondo de toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Tipo de letra normal */
+            background: linear-gradient(180deg, #E6A8E6 0%, #D8BFD8 50%, #DDA0DD 100%);  /* Fondo morado bonito que va cambiando */
+            min-height: 100vh;  /* Que ocupe toda la pantalla de alto */
+            display: flex;  /* Para poder centrar todo */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            overflow: hidden;  /* Para que no aparezcan barras de scroll */
+            position: relative;  /* Para que los círculos flotantes se posicionen bien */
+        }
+
+        /* Los círculos decorativos que flotan por atrás */
+        .background-decoration {
+            position: absolute;  /* Se queda fijo en su lugar */
+            width: 100%;  /* Ocupar todo el ancho */
+            height: 100%;  /* Ocupar todo el alto */
+            pointer-events: none;  /* No se puede hacer clic en ellos */
+            opacity: 0.3;  /* Un poco transparentes */
+        }
+
+        /* Cada círculo decorativo individual */
+        .circle {
+            position: absolute;  /* Se posiciona donde le digamos */
+            border: 3px solid white;  /* Borde blanco de 3 pixeles */
+            border-radius: 50%;  /* Que sea completamente redondo */
+        }
+
+        /* Posiciones de cada círculo decorativo (hay 10 en total) */
+        .circle:nth-child(1) {
+            width: 200px;  /* Tamaño del círculo */
+            height: 200px;
+            top: 10%;  /* Distancia desde arriba */
+            left: 10%;  /* Distancia desde la izquierda */
+        }
+
+        .circle:nth-child(2) {
+            width: 150px;  /* Un poco más pequeño */
+            height: 150px;
+            top: 20%;  /* Más abajo */
+            right: 15%;  /* Desde la derecha */
+        }
+
+        .circle:nth-child(3) {
+            width: 100px;  /* Más pequeñito */
+            height: 100px;
+            bottom: 20%;  /* Desde abajo */
+            left: 20%;  /* Desde la izquierda */
+        }
+
+        .circle:nth-child(4) {
+            width: 120px;  /* Tamaño mediano */
+            height: 120px;
+            top: 10%;  /* Arriba */
+            left: 50%;  /* En el centro horizontal */
+        }
+
+        .circle:nth-child(5) {
+            width: 80px;  /* Bien pequeñito */
+            height: 80px;
+            top: 80%;  /* Casi hasta abajo */
+            right: 5%;  /* Muy pegado a la derecha */
+        }
+
+        .circle:nth-child(6) {
+            width: 160px;  /* Grande */
+            height: 160px;
+            bottom: 10%;  /* Abajo */
+            right: 40%;  /* Hacia el centro desde la derecha */
+        }
+
+        .circle:nth-child(7) {
+            width: 90px;  /* Pequeño */
+            height: 90px;
+            top: 5%;  /* Muy arriba */
+            left: 80%;  /* Hacia la derecha */
+        }
+
+        .circle:nth-child(8) {
+            width: 110px;  /* Mediano */
+            height: 110px;
+            top: 50%;  /* En el centro vertical */
+            left: 5%;  /* Muy a la izquierda */
+        }
+
+        .circle:nth-child(9) {
+            width: 70px;  /* Muy pequeño */
+            height: 70px;
+            bottom: 5%;  /* Muy abajo */
+            left: 60%;  /* Hacia la derecha del centro */
+        }
+
+        .circle:nth-child(10) {
+            width: 130px;  /* Grandecito */
+            height: 130px;
+            top: 30%;  /* Un poco abajo del centro */
+            left: 30%;  /* Un poco a la derecha del centro */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            z-index: 1000;  /* Que aparezca por encima de todo */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* La caja grande que contiene todo */
+        .container {
+            position: relative;  /* Para que los elementos de adentro se posicionen bien */
+            width: 100%;  /* Ocupar todo el ancho */
+            height: 100vh;  /* Ocupar toda la altura de la pantalla */
+            max-width: 1400px;  /* Pero no más de este tamaño */
+            margin: 0 auto;  /* Centrar la caja */
+        }
+
+        /* La parte donde está el ajolote */
+        .ajolote-section {
+            position: absolute;  /* Se posiciona donde le digamos */
+            bottom: 200px;  /* 200 pixeles desde abajo */
+            left: 50px;  /* 50 pixeles desde la izquierda */
+            z-index: 3;  /* Que aparezca por encima de los círculos */
+        }
+
+        /* El ajolote que se ve en la página */
+        .ajolote-character {
+            width: 450px;  /* Ancho del ajolote */
+            height: 450px;  /* Alto del ajolote */
+            /* Le quitamos la animación de flotar para que vaya más rápido */
+            position: relative;  /* Para que se posicione bien */
+            z-index: 2;  /* Por encima del fondo pero debajo del globo */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Mismo alto */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));  /* Sombra suave */
+        }
+
+        /* La parte donde está el globo con el texto */
+        .speech-section {
+            position: absolute;  /* Se queda fijo donde le digamos */
+            top: 20px;  /* 20 pixeles desde arriba */
+            right: 50px;  /* 50 pixeles desde la derecha */
+            width: 60%;  /* Ocupa el 60% del ancho */
+            display: flex;  /* Para centrar el globo */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: flex-start;  /* Alinear arriba */
+            z-index: 2;  /* Por encima del fondo */
+        }
+
+        /* El globo de diálogo donde aparece el texto */
+        .speech-bubble {
+            position: relative;  /* Para posicionar el texto adentro */
+            background: url('../static/images/images_quienes_somos/nube.png') center center no-repeat;  /* Imagen de nube de fondo */
+            background-size: 120% 150%;  /* Tamaño de la imagen de fondo */
+            padding: 80px 100px;  /* Espacio adentro del globo */
+            max-width: 1000px;  /* Ancho máximo */
+            min-height: 600px;  /* Alto mínimo */
+            width: 100%;  /* Ocupar todo el ancho disponible */
+            display: flex;  /* Para centrar el contenido */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            animation: slideIn 1s ease-out;  /* Animación de entrada suave */
+            flex-direction: column;  /* Los elementos van en columna */
+        }
+
+        /* Animación para que el globo aparezca suavemente */
+        @keyframes slideIn {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: scale(0.8) translateX(50px);  /* Pequeño y movido a la derecha */
+            }
+            to {
+                opacity: 1;  /* Termina completamente visible */
+                transform: scale(1) translateX(0);  /* Tamaño normal y en su lugar */
+            }
+        }
+
+        /* Todo el texto que aparece dentro del globo */
+        .speech-text {
+            font-size: 1.1rem;  /* Tamaño de la letra */
+            line-height: 1.6;  /* Espacio entre las líneas */
+            color: #000000;  /* Color negro */
+            text-align: center;  /* Texto centrado */
+            font-weight: 500;  /* Un poquito más grueso que normal */
+            z-index: 10;  /* Por encima de todo */
+            position: relative;  /* Para que se posicione bien */
+            max-width: 80%;  /* No ocupar más del 80% del ancho */
+            margin-bottom: 5px;  /* Espacio abajo */
+            margin-top: -20px;  /* Subir un poco */
+            margin-left: -30px;  /* Mover a la izquierda */
+        }
+
+        /* Las palabras que queremos destacar */
+        .speech-text .highlight {
+            font-weight: normal;  /* Peso normal */
+            color: #000000;  /* Color negro */
+        }
+
+        /* El nombre de la aplicación que aparece grande */
+        .speech-text .app-name {
+            font-size: 1.3rem;  /* Un poco más grande */
+            font-weight: normal;  /* Peso normal */
+            color: #000000;  /* Color negro */
+            display: block;  /* Que ocupe toda la línea */
+            margin-bottom: 20px;  /* Espacio abajo */
+        }
+
+        /* El texto sobre las edades de los niños */
+        .speech-text .age-range {
+            font-weight: normal;  /* Peso normal */
+            color: #000000;  /* Color negro */
+        }
+
+        /* El texto sobre la Lengua de Señas Mexicana */
+        .speech-text .lsm {
+            font-weight: normal;  /* Peso normal */
+            color: #000000;  /* Color negro */
+        }
+
+        /* El botón rosa de "¡Empezar Aventura!" */
+        .action-button {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 10px 20px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas bien redonditas */
+            font-size: 0.9rem;  /* Tamaño de letra */
+            font-weight: normal;  /* Peso normal */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: -5px;  /* Subir un poquito */
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+            display: block;  /* Que ocupe toda la línea */
+            margin-left: auto;  /* Centrar automáticamente */
+            margin-right: auto;  /* Centrar automáticamente */
+            transform: translateX(-30px);  /* Mover un poco a la izquierda */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .action-button:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .action-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+    </style>
+</head>
+<body>
+    <!-- Los círculos decorativos que flotan por atrás de todo -->
+    <div class="background-decoration">
+        <div class="circle"></div>  <!-- Círculo 1 -->
+        <div class="circle"></div>  <!-- Círculo 2 -->
+        <div class="circle"></div>  <!-- Círculo 3 -->
+        <div class="circle"></div>  <!-- Círculo 4 -->
+        <div class="circle"></div>  <!-- Círculo 5 -->
+        <div class="circle"></div>  <!-- Círculo 6 -->
+        <div class="circle"></div>  <!-- Círculo 7 -->
+        <div class="circle"></div>  <!-- Círculo 8 -->
+        <div class="circle"></div>  <!-- Círculo 9 -->
+        <div class="circle"></div>  <!-- Círculo 10 -->
+    </div>
+
+    <!-- El botón para regresar a la página principal -->
+    <div class="close-button" onclick="window.location.href='/'">
+        <img src="../static/images/images_quienes_somos/regresar.png" alt="Regresar">
+    </div>
+
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La parte izquierda donde está el ajolote -->
+        <div class="ajolote-section">
+            <div class="ajolote-character">
+                <!-- La imagen del ajolote relajado -->
+                <img src="../static/images/images_quienes_somos/ajoloterelax.png" alt="Ajolote Relajado">
+            </div>
+        </div>
+
+        <!-- La parte derecha donde está el globo con el texto -->
+        <div class="speech-section">
+            <div class="speech-bubble">
+                <!-- Todo el texto que aparece en el globo -->
+                <div class="speech-text">
+                    <!-- El título principal de la aplicación -->
+                    <span class="app-name">¡Somos "Adiós al Silencio"!</span>
+                    
+                    <!-- Descripción de qué es la aplicación -->
+                    Una <span class="highlight">App Web Divertida y Colorida</span> creada especialmente para que 
+                    <span class="age-range">niños y niñas de 6 a 12 años</span> aprendan la 
+                    <span class="lsm">Lengua de Señas Mexicana (LSM)</span>.
+                    <br><br>
+                    <!-- Más información sobre lo que pueden hacer -->
+                    Aquí tendrás <span class="highlight">desafíos emocionantes y aventuras</span> que hacen que 
+                    cada palabra cobre vida en tus manos.
+                </div>
+                
+                <!-- El botón para empezar a usar la aplicación -->
+                <button class="action-button" onclick="window.location.href='/registrar_tutor'">
+                    ¡Empezar Aventura!
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

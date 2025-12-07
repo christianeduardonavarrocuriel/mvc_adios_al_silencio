@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Registrarme - Adios al Silencio</title>  <!-- Título de la página -->
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul bonito que cambia de tono */
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            overflow: hidden;  /* No mostrar barras de scroll */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar los elementos */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            width: 100%;  /* Que ocupe todo el ancho */
+            max-width: 1200px;  /* Ancho máximo */
+            padding: 20px;  /* Espacio en los bordes */
+            gap: 60px;  /* Espacio entre el ajolote y el formulario */
+        }
+
+        /* La parte izquierda donde está el ajolote */
+        .ajolote-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* En columna */
+            justify-content: center;  /* Centrar vertical */
+            align-items: center;  /* Centrar horizontal */
+            padding-left: 0;  /* Sin espacio a la izquierda */
+            padding-right: 80px;  /* Espacio a la derecha */
+            margin-left: -80px;  /* Mover un poco a la izquierda */
+        }
+
+        /* El ajolote que se mueve */
+        .ajolote-character {
+            width: 600px;  /* Ancho del ajolote */
+            height: 600px;  /* Alto del ajolote */
+            animation: float 3s ease-in-out infinite;  /* Animación de flotar para siempre */
+            margin: 0;  /* Sin espacios extras */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Mismo alto */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+        }
+
+        /* Los botones que están debajo del ajolote */
+        .ajolote-actions {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            align-items: center;  /* Centrar horizontal */
+            gap: 15px;  /* Espacio entre elementos */
+            margin-top: -30px;  /* Subir un poquito */
+            width: 100%;  /* Que ocupe todo el ancho */
+        }
+
+        /* La parte derecha donde está el formulario */
+        .form-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            max-width: 500px;  /* Ancho máximo */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* El título grande que dice "Registrarse" */
+        .form-title {
+            color: white;  /* Texto blanco */
+            font-size: 3.5rem;  /* Muy grande */
+            font-weight: bold;  /* Negritas */
+            text-align: center;  /* Centrado */
+            margin-bottom: 40px;  /* Espacio abajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            animation: slideDown 0.8s ease-out;  /* Animación de aparecer desde arriba */
+        }
+
+        /* La caja que contiene todo el formulario */
+        .form-container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 25px;  /* Espacio entre elementos */
+            animation: slideUp 0.8s ease-out 0.2s both;  /* Animación de aparecer desde abajo */
+        }
+
+        /* Cada grupo de campo (etiqueta + input) */
+        .form-group {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 8px;  /* Espacio entre etiqueta e input */
+        }
+
+        /* Las etiquetas que dicen "Nombre", "Correo", etc */
+        .form-label {
+            color: white;  /* Texto blanco */
+            font-size: 1.3rem;  /* Tamaño grande */
+            font-weight: bold;  /* Negritas */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Los campos donde escribes (inputs) */
+        .form-input {
+            padding: 15px 20px;  /* Espacio adentro */
+            border: none;  /* Sin borde */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.1rem;  /* Tamaño de letra */
+            background: rgba(255, 255, 255, 0.95);  /* Fondo blanco casi transparente */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            outline: none;  /* Sin borde cuando haces clic */
+        }
+
+        /* Cuando haces clic en un input */
+        .form-input:focus {
+            background: white;  /* Fondo completamente blanco */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
+            transform: translateY(-2px);  /* Se mueve un poquito hacia arriba */
+        }
+
+        /* El texto que aparece cuando el input está vacío */
+        .form-input::placeholder {
+            color: #999;  /* Color gris */
+            font-style: italic;  /* Letra inclinada */
+        }
+
+        /* Estilo especial para el menú desplegable (select) */
+        select.form-input {
+            padding-left: 15px;  /* Espacio a la izquierda */
+            padding-right: 45px;  /* Espacio a la derecha para la flecha */
+            text-align: left;  /* Texto hacia la izquierda */
+            background-image: url("../static/images/images_registrar_tutor/flecha_dropdown.png");  /* La flechita */
+            background-position: right 15px center;  /* Posición de la flecha */
+            background-repeat: no-repeat;  /* Que no se repita la imagen */
+            background-size: 16px;  /* Tamaño de la flecha */
+            appearance: none;  /* Quitar el estilo por defecto */
+            -webkit-appearance: none;  /* Para navegadores webkit */
+            -moz-appearance: none;  /* Para Firefox */
+            transition: none;  /* Sin animación */
+        }
+
+        /* Cuando haces clic en el select */
+        select.form-input:focus {
+            background-image: url("../static/images/images_registrar_tutor/flecha_dropdown.png");  /* Mantener la flecha */
+            background-position: right 15px center;  /* Mantener posición */
+            background-repeat: no-repeat;  /* Que no se repita */
+            background-size: 16px;  /* Mantener tamaño */
+            transform: none;  /* Sin movimiento */
+        }
+
+        /* El enlace que dice "¿Ya tienes una cuenta?" */
+        .login-link {
+            text-align: center;  /* Centrado */
+            margin: 5px 0 0 0;  /* Un poquito de espacio arriba */
+        }
+                        
+        /* El texto del enlace */
+        .login-link a {
+            color: white;  /* Texto blanco */
+            font-size: 1rem;  /* Tamaño normal */
+            text-decoration: underline;  /* Subrayado */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            transition: all 0.3s ease;  /* Animación suave */
+            font-weight: normal;  /* Peso normal */
+        }
+
+        /* Cuando pasas el mouse por el enlace */
+        .login-link a:hover {
+            color: #E0F6FF;  /* Color azul clarito */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Sombra más fuerte */
+        }
+
+        /* El botón rosa de "Siguiente" */
+        .submit-button {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito que cambia de tono */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 18px 40px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.4rem;  /* Letra grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 10px;  /* Espacio arriba */
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .submit-button:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .submit-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+
+        /* Las animaciones que hacen que las cosas se muevan */
+        
+        /* Animación para que el ajolote flote arriba y abajo */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* En su posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+
+        /* Animación para que el título aparezca desde arriba */
+        @keyframes slideDown {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(-30px);  /* Empieza más arriba */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+
+        /* Animación para que el formulario aparezca desde abajo */
+        @keyframes slideUp {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(30px);  /* Empieza más abajo */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar a la página principal -->
+    <div class="close-button" onclick="window.location.href='/'">
+        <img src="../static/images/images_registrar_tutor/regresar.png" alt="Regresar">
+    </div>
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La parte izquierda con el ajolote -->
+        <div class="ajolote-section">
+            <!-- El ajolote que flota -->
+            <div class="ajolote-character">
+                <img src="../static/images/images_registrar_tutor/ajolotedona.png" alt="Ajolote">
+            </div>
+            
+            <!-- Los botones que están debajo del ajolote -->
+            <div class="ajolote-actions">
+                <!-- El botón rosa de "Siguiente" (está conectado con el formulario) -->
+                <button type="submit" class="submit-button" form="registro-form">Siguiente</button>
+                
+                <!-- El enlace para ir a iniciar sesión -->
+                <div class="login-link">
+                    <a href="/iniciar_sesion">¿Ya tienes una cuenta?</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- La parte derecha con el formulario -->
+        <div class="form-section">
+            <!-- El título grande -->
+            <h1 class="form-title">Registrarse</h1>
+            
+            <!-- El formulario que se envía al servidor -->
+            <form class="form-container" id="registro-form" action="/registrar_tutor" method="POST">
+                <!-- Campo para elegir el rol -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="rol">Rol:</label>
+                    <!-- Menú desplegable para elegir el rol -->
+                    <select 
+                        id="rol" 
+                        name="rol" 
+                        class="form-input" 
+                        required
+                    >
+                        <option value="" disabled selected>Selecciona tu rol</option>
+                        <option value="padre">Padre</option>
+                        <option value="tutor">Tutor</option>
+                        <option value="maestro">Maestro</option>
+                    </select>
+                </div>
+
+                <!-- Campo para escribir el nombre -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="nombres">Nombre:</label>
+                    <!-- Campo de texto para el nombre -->
+                    <input 
+                        type="text" 
+                        id="nombres" 
+                        name="nombres" 
+                        class="form-input" 
+                        placeholder="Escribe tu nombre"
+                        required
+                    >
+                </div>
+
+                <!-- Campo para escribir los apellidos -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="apellidos">Apellidos:</label>
+                    <!-- Campo de texto para los apellidos -->
+                    <input 
+                        type="text" 
+                        id="apellidos" 
+                        name="apellidos" 
+                        class="form-input" 
+                        placeholder="Escribe tus apellidos"
+                        required
+                    >
+                </div>
+
+                <!-- Campo para escribir el correo -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="correo">Correo:</label>
+                    <!-- Campo de email -->
+                    <input 
+                        type="email" 
+                        id="correo" 
+                        name="correo" 
+                        class="form-input" 
+                        placeholder="ejemplo@gmail.com"
+                        required
+                    >
+                </div>
+
+                <!-- Campo para escribir la contraseña -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="password">Contraseña:</label>
+                    <!-- Campo de contraseña -->
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Máximo 6 caracteres"
+                        maxlength="6"
+                        required
+                    >
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

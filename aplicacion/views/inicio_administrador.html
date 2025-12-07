@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">  <!-- La página está en español -->
+<head>
+    <!-- Info básica de la página -->
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Inicio Administrador - Adios al Silencio</title>  <!-- El título que aparece en la pestaña -->
+    
+    <!-- Aquí empiezan los estilos CSS para que se vea bonita la página -->
+    <style>
+        /* Esto hace que todos los elementos no tengan espacios raros */
+        * {
+            margin: 0;  /* Sin espacios de afuera */
+            padding: 0;  /* Sin espacios de adentro */
+            box-sizing: border-box;  /* Para que los tamaños se calculen bien */
+        }
+
+        /* El fondo de toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Tipo de letra normal */
+            background: linear-gradient(180deg, #4169E1 0%, #1E3A8A 50%, #4169E1 100%);  /* Fondo azul bonito que va cambiando */
+            min-height: 100vh;  /* Que ocupe toda la pantalla de alto */
+            display: flex;  /* Para poder centrar todo */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            overflow: hidden;  /* Para que no aparezcan barras de scroll */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Poner las cosas en fila */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            width: 100%;  /* Ocupar todo el ancho */
+            max-width: 1200px;  /* Pero no más de este tamaño */
+            padding: 20px;  /* Espacio alrededor */
+            gap: 60px;  /* Espacio entre el ajolote y el formulario */
+        }
+
+        /* La parte izquierda donde está el ajolote */
+        .ajolote-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* En columna */
+            justify-content: center;  /* Centrar */
+            align-items: center;  /* Centrar */
+            padding-left: 0;  /* Sin espacio a la izquierda */
+            padding-right: 60px;  /* Espacio a la derecha */
+            margin-left: -60px;  /* Mover un poco a la izquierda */
+            gap: 30px;  /* Espacio entre elementos */
+        }
+
+        /* El ajolote dorado que se mueve */
+        .ajolote-character {
+            width: 550px;  /* Ancho del ajolote */
+            height: 550px;  /* Alto del ajolote */
+            animation: float 3s ease-in-out infinite;  /* Animación de flotar para siempre */
+            margin: 0;  /* Sin espacios extras */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Mismo alto */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+        }
+
+        /* El indicador dorado que dice "Modo Administrador" */
+        .admin-indicator {
+            background: linear-gradient(135deg, #FFD700, #FFA500);  /* Fondo dorado bonito */
+            color: #1E3A8A;  /* Texto azul oscuro */
+            border: none;  /* Sin borde */
+            padding: 15px 35px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.1rem;  /* Tamaño de letra */
+            font-weight: bold;  /* Negritas */
+            cursor: default;  /* Cursor normal (no se puede hacer clic) */
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);  /* Sombra dorada */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* La parte derecha donde está el formulario */
+        .form-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            max-width: 500px;  /* Ancho máximo */
+        }
+
+        /* El título grande que dice "Administrador" */
+        .form-title {
+            color: white;  /* Texto blanco */
+            font-size: 3.5rem;  /* Muy grande */
+            font-weight: bold;  /* Negritas */
+            text-align: center;  /* Centrado */
+            margin-bottom: 40px;  /* Espacio abajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            animation: slideDown 0.8s ease-out;  /* Animación de aparecer desde arriba */
+        }
+
+        /* La caja que contiene todo el formulario */
+        .form-container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 25px;  /* Espacio entre elementos */
+            animation: slideUp 0.8s ease-out 0.2s both;  /* Animación de aparecer desde abajo */
+        }
+
+        /* Cada grupo de campo (etiqueta + input) */
+        .form-group {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 8px;  /* Espacio entre etiqueta e input */
+        }
+
+        /* Las etiquetas que dicen "Correo", "Contraseña", etc */
+        .form-label {
+            color: white;  /* Texto blanco */
+            font-size: 1.3rem;  /* Tamaño grande */
+            font-weight: bold;  /* Negritas */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Los campos donde escribes (inputs) */
+        .form-input {
+            width: 100%;  /* Que ocupe todo el ancho disponible */
+            padding: 15px 20px;  /* Espacio adentro */
+            border: none;  /* Sin borde */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.1rem;  /* Tamaño de letra */
+            background: rgba(255, 255, 255, 0.95);  /* Fondo blanco casi transparente */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            outline: none;  /* Sin borde cuando haces clic */
+        }
+
+        /* Cuando haces clic en un input */
+        .form-input:focus {
+            background: white;  /* Fondo completamente blanco */
+            box-shadow: 0 6px 20px rgba(65, 105, 225, 0.3);  /* Sombra azul */
+            transform: translateY(-2px);  /* Se mueve un poquito hacia arriba */
+        }
+
+        /* El texto que aparece cuando el input está vacío */
+        .form-input::placeholder {
+            color: #999;  /* Color gris */
+            font-style: italic;  /* Letra inclinada */
+        }
+
+        /* El botón principal de "Acceder como Administrador" */
+        .submit-button {
+            background: linear-gradient(135deg, #6495ED, #87CEEB);  /* Fondo azul bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 18px 40px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.4rem;  /* Letra grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 10px;  /* Espacio arriba */
+            box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);  /* Sombra azul */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .submit-button:hover {
+            background: linear-gradient(135deg, #4169E1, #6495ED);  /* Azul más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 8px 25px rgba(65, 105, 225, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .submit-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+
+        /* El enlace para regresar al inicio normal */
+        .back-link {
+            text-align: center;  /* Centrado */
+            margin: 5px 0 0 0;  /* Un poquito de espacio arriba */
+        }
+
+        /* El texto del enlace */
+        .back-link a {
+            color: white;  /* Texto blanco */
+            font-size: 1rem;  /* Tamaño normal */
+            text-decoration: underline;  /* Subrayado */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            transition: all 0.3s ease;  /* Animación suave */
+            font-weight: normal;  /* Peso normal */
+        }
+
+        /* Cuando pasas el mouse por el enlace */
+        .back-link a:hover {
+            color: #B0C4DE;  /* Color azul clarito */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Sombra más fuerte */
+        }
+
+        /* Las animaciones que hacen que las cosas se muevan */
+        
+        /* Animación para que el ajolote flote arriba y abajo */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* En su posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+
+        /* Animación para que el título aparezca desde arriba */
+        @keyframes slideDown {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(-30px);  /* Empieza más arriba */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+
+        /* Animación para que el formulario aparezca desde abajo */
+        @keyframes slideUp {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(30px);  /* Empieza más abajo */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar a la página principal -->
+    <div class="close-button" onclick="window.location.href='/'">
+        <img src="../static/images/images_inicio_administrador/regresar.png" alt="Regresar">
+    </div>
+    
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La parte izquierda con el ajolote y el indicador -->
+        <div class="ajolote-section">
+            <!-- El letrero dorado que dice "Modo Administrador" -->
+            <div class="admin-indicator">
+                Modo Administrador
+            </div>
+            
+            <!-- El ajolote dorado que flota -->
+            <div class="ajolote-character">
+                <img src="../static/images/images_inicio_administrador/ajolote_dorado.png" alt="Ajolote Dorado">
+            </div>
+        </div>
+
+        <!-- La parte derecha con el formulario de login -->
+        <div class="form-section">
+            <!-- El título grande -->
+            <h1 class="form-title">Administrador</h1>
+            
+            <!-- El formulario que se envía al servidor -->
+            <form class="form-container" action="#" method="POST">
+                <!-- Campo para escribir el correo -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="correo">Correo Electrónico:</label>
+                    <!-- Campo de texto para el correo -->
+                    <input 
+                        type="email" 
+                        id="correo" 
+                        name="correo" 
+                        class="form-input" 
+                        placeholder="admin@gmail.com o director@utec.edu.mx"
+                        title="Ingrese un correo electrónico válido de Gmail, Outlook, Yahoo, instituciones educativas mexicanas, etc."
+                        required
+                    >
+                </div>
+
+                <!-- Campo para escribir la contraseña -->
+                <div class="form-group">
+                    <!-- Etiqueta del campo -->
+                    <label class="form-label" for="contraseña">Contraseña:</label>
+                    <!-- Caja que contiene el input de contraseña -->
+                    <div style="position: relative;">
+                        <!-- Campo de contraseña -->
+                        <input 
+                            type="password" 
+                            id="contraseña" 
+                            name="contraseña" 
+                            class="form-input" 
+                            placeholder="Máximo 6 caracteres"
+                            required
+                        >
+                    </div>
+
+                <!-- El botón principal para entrar -->
+                <button type="submit" class="submit-button">Acceder como Administrador</button>
+
+                <!-- El enlace para regresar al login normal -->
+                <div class="back-link">
+                    <a href="/iniciar_sesion">← Regresar al inicio de sesión normal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

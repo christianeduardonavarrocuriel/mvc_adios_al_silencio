@@ -1,0 +1,364 @@
+<!-- Página principal de "Adiós al Silencio" -->
+<!DOCTYPE html>
+<html lang="es">  <!-- Página en español -->
+<head>
+    <!-- Información básica de la página -->
+    <meta charset="UTF-8">  <!-- Para que funcionen las letras con acentos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Configuración básica para la pantalla -->
+
+    <!-- Estas líneas evitan que el navegador guarde la página en memoria -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">  <!-- No guardar en caché -->
+    <meta http-equiv="Pragma" content="no-cache">  <!-- Compatibilidad con navegadores antiguos -->
+    <meta http-equiv="Expires" content="0">  <!-- La página expira inmediatamente -->
+    <meta http-equiv="Last-Modified" content="0">  <!-- Forzar actualización -->
+    <meta http-equiv="If-Modified-Since" content="0">  <!-- Verificar cambios -->
+    
+    <title>Adiós al Silencio</title>  <!-- Título que aparece en la pestaña del navegador -->
+    
+    <!-- Estilos CSS - aquí definimos cómo se ve la página -->
+    <style>
+        /* Configuración básica para todos los elementos de la página */
+        * {
+            margin: 0;  /* Sin espacios externos */
+            padding: 0;  /* Sin espacios internos */
+        }
+
+        /* Configuración del fondo y aspecto general de toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Tipo de letra */
+            background: linear-gradient(180deg, #00BFFF 0%, #87CEEB 50%, #B0E0E6 100%);  /* Fondo azul degradado */
+            min-height: 100vh;  /* Ocupar toda la altura de la pantalla */
+            background-attachment: fixed;  /* El fondo no se mueve al hacer scroll */
+        }
+
+        /* Contenedor principal con imagen de fondo */
+        .unified-background {
+            background: url('/static/images/images_index/fondo.png') center center no-repeat;  /* Imagen de fondo centrada */
+            background-size: cover;  /* La imagen cubre toda el área */
+            position: relative;  /* Para poder poner elementos encima */
+        }
+
+        /* Barra superior de navegación */
+        .header {
+            display: flex;  /* Poner elementos en fila */
+            justify-content: space-between;  /* Separar logo y botones */
+            align-items: center;  /* Centrar verticalmente */
+            padding: 25px 50px;  /* Espacio interno */
+        }
+
+        /* Logo y texto del sitio */
+        .logo {
+            display: flex;  /* Poner logo e icono en fila */
+            align-items: center;  /* Centrar verticalmente */
+            gap: 20px;  /* Espacio entre logo y texto */
+            color: white;  /* Color del texto */
+            font-size: 32px;  /* Tamaño grande */
+            font-weight: bold;  /* Texto en negritas */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);  /* Sombra del texto */
+        }
+
+        /* Contenedor del icono del logo */
+        .logo-icon {
+            width: 90px;  /* Ancho */
+            height: 90px;  /* Alto */
+            border-radius: 20px;  /* Esquinas redondeadas */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);  /* Sombra suave */
+        }
+
+        /* Imagen del logo */
+        .logo-icon img {
+            width: 100%;  /* Ocupar todo el ancho del contenedor */
+            height: 100%;  /* Ocupar toda la altura del contenedor */
+        }
+
+        /* Botones de navegación */
+        .nav-buttons {
+            display: flex;  /* Poner botones en fila */
+            gap: 15px;  /* Espacio entre botones */
+        }
+
+        /* Estilo de cada botón de navegación */
+        .nav-btn {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Degradado rosa */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 16px 32px;  /* Espacio interno */
+            border-radius: 30px;  /* Esquinas muy redondeadas */
+            font-size: 18px;  /* Tamaño del texto */
+            font-weight: bold;  /* Texto en negritas */
+            cursor: pointer;  /* Mostrar manita al pasar el mouse */
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);  /* Sombra rosa */
+        }
+
+        /* Efecto cuando pasas el mouse sobre los botones */
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Cambiar a rosa más oscuro */
+            transform: translateY(-2px);  /* Mover hacia arriba */
+        }
+
+        /* Sección del personaje principal */
+        .hero-section {
+            text-align: center;  /* Centrar todo el contenido */
+            padding: 10px 20px 20px 20px;  /* Espacio interno */
+            color: white;  /* Color del texto */
+        }
+
+        /* Contenedor del personaje principal */
+        .character {
+            width: 300px;  /* Ancho */
+            height: 300px;  /* Alto */
+            margin: 0 auto;  /* Centrar horizontalmente */
+            animation: float 4s ease-in-out infinite;  /* Animación flotante que se repite */
+        }
+
+        /* Imagen del personaje principal */
+        .character img {
+            width: 100%;  /* Ocupar todo el ancho del contenedor */
+            height: 100%;  /* Ocupar toda la altura del contenedor */
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));  /* Sombra debajo de la imagen */
+        }
+
+        /* Sección de bienvenida */
+        .welcome-section {
+            background: transparent;  /* Fondo transparente */
+            margin: -60px 0 0 0;  /* Subir la sección para que se traslape */
+            padding: 60px 40px 80px 40px;  /* Espacio interno */
+            text-align: center;  /* Centrar el texto */
+            color: white;  /* Texto en blanco */
+        }
+
+        /* Título de bienvenida */
+        .welcome-title {
+            font-size: 2.8rem;  /* Tamaño muy grande */
+            margin-bottom: 25px;  /* Espacio debajo */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);  /* Sombra fuerte del texto */
+        }
+
+        /* Texto de bienvenida */
+        .welcome-text {
+            font-size: 2.4rem;  /* Tamaño grande */
+            line-height: 1.6;  /* Espaciado entre líneas */
+            max-width: 900px;  /* Ancho máximo */
+            margin: 0 auto;  /* Centrar el texto */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);  /* Sombra del texto */
+        }
+
+        /* Sección "Nuestra Misión" */
+        .mission-section {
+            background: rgba(30, 144, 255, 0.4);  /* Fondo azul transparente */
+            padding: 100px 40px 120px 40px;  /* Espacio interno */
+            color: white;  /* Texto en blanco */
+            position: relative;  /* Para poder poner elementos encima */
+        }
+
+        /* Título de la misión */
+        .mission-title {
+            font-size: 4.2rem;  /* Tamaño muy grande */
+            margin-bottom: 30px;  /* Espacio debajo */
+            font-weight: bold;  /* Texto en negritas */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);  /* Sombra del texto */
+        }
+
+        /* Texto de la misión */
+        .mission-text {
+            font-size: 2.4rem;  /* Tamaño grande */
+            line-height: 1.7;  /* Espaciado entre líneas */
+            margin-bottom: 25px;  /* Espacio debajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);  /* Sombra del texto */
+        }
+
+        /* Rana en la sección de misión */
+        .dragon-character {
+            position: absolute;  /* Posición fija en la pantalla */
+            bottom: 20px;  /* 20px desde abajo */
+            right: 40px;  /* 40px desde la derecha */
+            width: 160px;  /* Ancho */
+            height: 160px;  /* Alto */
+            animation: bounce 3s ease-in-out infinite;  /* Animación de rebote que se repite */
+        }
+
+        /* Imagen de la rana o dragón */
+        .dragon-character img {
+            width: 100%;  /* Ocupar todo el ancho del contenedor */
+            height: 100%;  /* Ocupar toda la altura del contenedor */
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));  /* Sombra debajo de la imagen */
+        }
+
+        /* Sección "Machine Learning" */
+        .ai-section {
+            background: transparent;  /* Fondo transparente */
+            padding: 100px 40px 100px 40px;  /* Espacio interno */
+            color: white;  /* Texto en blanco */
+            position: relative;  /* Para poder poner elementos encima */
+        }
+
+        /* Fondo azul de la sección IA - se pone detrás del contenido */
+        .ai-section::before {
+            content: '';  /* Sin contenido, solo decorativo */
+            position: absolute;  /* Posición fija */
+            top: 0;  /* Desde arriba */
+            left: 0;  /* Desde la izquierda */
+            right: 0;  /* Hasta la derecha */
+            bottom: 0;  /* Hasta abajo */
+            background: url('/static/images/images_index/azul rey.jpg') center center no-repeat;  /* Imagen de fondo */
+            background-size: cover;  /* La imagen cubre toda el área */
+            z-index: 1;  /* Capa de fondo (detrás del texto) */
+        }
+
+        /* Título de la sección IA */
+        .ai-title {
+            font-size: 4.2rem;  /* Tamaño muy grande */
+            margin-bottom: 30px;  /* Espacio debajo */
+            font-weight: bold;  /* Texto en negritas */
+            position: relative;  /* Para que aparezca encima del fondo */
+            z-index: 2;  /* Capa del texto (encima del fondo) */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Texto de la sección IA */
+        .ai-text {
+            font-size: 2.4rem;  /* Tamaño grande */
+            line-height: 1.7;  /* Espaciado entre líneas */
+            margin-bottom: 25px;  /* Espacio debajo */
+            position: relative;  /* Para que aparezca encima del fondo */
+            z-index: 2;  /* Capa del texto (encima del fondo) */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);  /* Sombra suave del texto */
+        }
+
+        /* Robot en la sección IA */
+        .robot-character {
+            position: absolute;  /* Posición fija en la pantalla */
+            top: 40px;  /* 40px desde arriba */
+            right: 40px;  /* 40px desde la derecha */
+            width: 160px;  /* Ancho */
+            height: 160px;  /* Alto */
+            animation: pulse 2s ease-in-out infinite;  /* Animación de pulsación que se repite */
+            z-index: 3;  /* Capa superior (encima de todo) */
+        }
+
+        /* Imagen del robot */
+        .robot-character img {
+            width: 100%;  /* Ocupar todo el ancho del contenedor */
+            height: 100%;  /* Ocupar toda la altura del contenedor */
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));  /* Sombra debajo de la imagen */
+        }
+
+        /* Animaciones para que los personajes se muevan */
+        
+        /* Animación de flotar suavemente - para elementos que se mueven arriba y abajo */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }  /* Posición original al inicio y al final */
+            50% { transform: translateY(-15px); }     /* Se mueve 15px hacia arriba en la mitad */
+        }
+
+        /* Animación de rebotar suavemente - movimiento más sutil */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }  /* Posición original al inicio y al final */
+            50% { transform: translateY(-10px); }     /* Se mueve 10px hacia arriba en la mitad */
+        }
+
+        /* Animación de pulsar - para elementos que crecen y se encogen ligeramente */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }         /* Tamaño original (100%) al inicio y al final */
+            50% { transform: scale(1.05); }           /* Crece 5% más grande en la mitad */
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal con fondo unificado -->
+    <div class="unified-background">
+        
+        <!-- Barra de navegación superior de la página -->
+        <div class="header">
+            <!-- Logo y nombre del juego -->
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="/static/images/images_index/logo.png" alt="Logo">
+                </div>
+                <span>¡Adiós al Silencio!</span>  <!-- Nombre del juego -->
+                <!--LOGOUT_MARK-->  <!-- Marca especial para cerrar sesión -->
+            </div>
+            
+            <!-- Botones de navegación -->
+            <div class="nav-buttons">
+                <!-- Botón para ir a jugar -->
+                <button class="nav-btn" onclick="window.location.href='/iniciar_sesion'">JUGAR</button>
+                <!-- Botón para crear una nueva cuenta -->
+                <button class="nav-btn" onclick="window.location.href='/registrar_tutor'">CREAR CUENTA</button>
+                <!-- Botón para conocer información del equipo -->
+                <button class="nav-btn" onclick="window.location.href='/quienes_somos'">¿QUIÉNES SOMOS?</button>
+            </div>
+        </div>
+
+        <!-- Sección principal con el personaje héroe -->
+        <div class="hero-section scroll-animation scale-up">
+            <div class="character">
+                <!-- Imagen del personaje principal del juego -->
+                <img src="/static/images/images_index/personaje principal.png" alt="Personaje Principal">
+            </div>
+        </div>
+
+        <!-- Sección de mensaje de bienvenida -->
+        <div class="welcome-section scroll-animation">
+            <!-- Título principal de bienvenida -->
+            <h1 class="welcome-title">Bienvenido a<br>¡Adiós Al Silencio!</h1>
+            <!-- Texto explicativo del juego -->
+            <p class="welcome-text">
+                Conoce la Lengua de Señas Mexicana a través de nuestro gran 
+                juego interactivo :3  <!-- Emoticón amigable -->
+            </p>
+        </div>
+    </div>
+
+    <!-- Sección "Nuestra Misión" - explica el propósito del juego -->
+    <div class="mission-section">
+        <!-- Título de la sección -->
+        <h2 class="mission-title">Nuestra Misión:</h2>
+        
+        <!-- Primer párrafo explicativo de la misión -->
+        <p class="mission-text">
+            Construir inclusión desde la infancia para que todos 
+            los niños, puedan comunicarse, hacer amigos y 
+            entender que cada seña es un abrazo sin palabras.
+        </p>
+        
+        <!-- Segundo párrafo sobre el impacto social -->
+        <p class="mission-text">
+            Contribuimos a la construcción de una sociedad 
+            inclusiva donde la diversidad lingüística sea patrimonio 
+            nacional.
+        </p>
+        
+        <!-- Personaje decorativo - rana que acompaña la sección -->
+        <div class="dragon-character">
+            <img src="/static/images/images_index/rana.png" alt="Rana">
+        </div>
+    </div>
+
+    <!-- Sección "Machine Learning" - explica la tecnología del juego -->
+    <div class="ai-section">
+        <!-- Título de la sección tecnológica -->
+        <h2 class="ai-title">Machine Learning</h2>
+        
+        <!-- Primer párrafo: explica cómo funciona la tecnología -->
+        <p class="ai-text">
+           "En ¡Adiós al Silencio!, usamos Machine Learning (Aprendizaje Automático)
+            para ayudar a los niños a aprender LSM de forma más precisa y segura. 
+            Cuando el niño activa su cámara, la inteligencia artificial 
+            analiza sus movimientos de manos y expresiones faciales en tiempo real, 
+            y un avatar animado cubre su rostro para proteger su privacidad. 
+            Así, el sistema puede corregir si la señal es correcta sin poner en riesgo la identidad del niño."
+        </p>
+        
+        <!-- Segundo párrafo: frase memorable sobre la tecnología -->
+        <p class="ai-text">
+            "No es magia, es Machine Learning: Tecnología que aprende para enseñar."
+        </p>
+        
+        <!-- Personaje decorativo - robot que representa la inteligencia artificial -->
+        <div class="robot-character">
+            <img src="/static/images/images_index/robot.png" alt="Robot IA">
+        </div>
+    </div>
+</body>
+</html>

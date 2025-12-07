@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">  <!-- Para que se vean bien las letras con acentos -->
+    <title>Registrarme - Adios al Silencio</title>  <!-- Título de la página -->
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            background: linear-gradient(180deg, #00BFFF 0%, #1E90FF 50%, #00BFFF 100%);  /* Fondo azul bonito que cambia de tono */
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            align-items: flex-start;  /* Empezar desde arriba */
+            justify-content: center;  /* Centrar horizontal */
+            overflow-y: auto;  /* Mostrar barra de scroll si es necesario */
+            padding: 40px 0;  /* Espacio arriba y abajo */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar los elementos */
+            align-items: flex-start;  /* Empezar desde arriba */
+            justify-content: center;  /* Centrar horizontal */
+            width: 100%;  /* Que ocupe todo el ancho */
+            max-width: 1200px;  /* Ancho máximo */
+            padding: 15px;  /* Espacio en los bordes */
+            gap: 40px;  /* Espacio entre el ajolote y el formulario */
+            min-height: calc(100vh - 80px);  /* Altura mínima (pantalla completa menos espacios) */
+        }
+
+        /* La parte izquierda donde está el ajolote */
+        .ajolote-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* En columna */
+            justify-content: flex-start;  /* Empezar desde arriba */
+            align-items: center;  /* Centrar horizontal */
+            padding-left: 0;  /* Sin espacio a la izquierda */
+            padding-right: 80px;  /* Espacio a la derecha */
+            margin-left: -80px;  /* Mover un poco a la izquierda */
+            position: sticky;  /* Se queda pegado cuando haces scroll */
+            top: 20px;  /* A 20 pixeles desde arriba */
+            height: fit-content;  /* Altura que se ajuste al contenido */
+            max-height: 90vh;  /* Altura máxima del 90% de la pantalla */
+        }
+
+        /* El ajolote que se mueve */
+        .ajolote-character {
+            width: 550px;  /* Ancho del ajolote */
+            height: 550px;  /* Alto del ajolote */
+            animation: float 3s ease-in-out infinite;  /* Animación de flotar para siempre */
+            margin: 0;  /* Sin espacios extras */
+        }
+
+        /* La imagen del ajolote */
+        .ajolote-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Mismo alto */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+        }
+
+        /* Los botones que están debajo del ajolote */
+        .ajolote-actions {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            align-items: center;  /* Centrar horizontal */
+            gap: 15px;  /* Espacio entre elementos */
+            margin-top: -20px;  /* Subir un poquito */
+            width: 100%;  /* Que ocupe todo el ancho */
+        }
+
+        /* La parte derecha donde está el formulario */
+        .form-section {
+            flex: 1;  /* Que ocupe su parte del espacio */
+            max-width: 600px;  /* Ancho máximo */
+            max-height: none;  /* Sin límite de altura */
+            overflow-y: visible;  /* Mostrar todo el contenido */
+        }
+
+        /* El botón de "regresar" que está arriba a la derecha */
+        .close-button {
+            position: absolute;  /* Se queda fijo en su posición */
+            top: 30px;  /* 30 pixeles desde arriba */
+            right: 30px;  /* 30 pixeles desde la derecha */
+            width: 60px;  /* Ancho del botón */
+            height: 60px;  /* Alto del botón */
+            cursor: pointer;  /* Se ve la manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            display: flex;  /* Para centrar la imagen adentro */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+        }
+
+        /* Cuando pasas el mouse por el botón de regresar */
+        .close-button:hover {
+            transform: scale(1.1);  /* Se hace un poquito más grande */
+        }
+
+        /* La imagen del botón de regresar */
+        .close-button img {
+            width: 100%;  /* Que ocupe todo el espacio del botón */
+            height: 100%;  /* Mismo alto que el botón */
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse, la imagen tiene más sombra */
+        .close-button:hover img {
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));  /* Sombra más fuerte */
+        }
+
+        /* El título grande que dice "Registrar Niños" */
+        .form-title {
+            color: white;  /* Texto blanco */
+            font-size: 2rem;  /* Grande */
+            font-weight: bold;  /* Negritas */
+            text-align: center;  /* Centrado */
+            margin-bottom: 20px;  /* Espacio abajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            animation: slideDown 0.8s ease-out;  /* Animación de aparecer desde arriba */
+        }
+
+        /* La caja que contiene todo el formulario */
+        .form-container {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 15px;  /* Espacio entre elementos */
+            animation: slideUp 0.8s ease-out 0.2s both;  /* Animación de aparecer desde abajo */
+        }
+
+        /* Cada grupo de campo (etiqueta + input) */
+        .form-group {
+            display: flex;  /* Para acomodar los elementos */
+            flex-direction: column;  /* En columna */
+            gap: 6px;  /* Espacio entre etiqueta e input */
+            margin-bottom: 10px;  /* Espacio abajo */
+        }
+
+        /* Las etiquetas que dicen "Nombre", "Contraseña", etc */
+        .form-label {
+            color: white;  /* Texto blanco */
+            font-size: 1.1rem;  /* Tamaño mediano */
+            font-weight: bold;  /* Negritas */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Los campos donde escribes (inputs) */
+        .form-input {
+            padding: 12px 18px;  /* Espacio adentro */
+            border: none;  /* Sin borde */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1rem;  /* Tamaño de letra normal */
+            background: rgba(255, 255, 255, 0.95);  /* Fondo blanco casi transparente */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+            transition: all 0.3s ease;  /* Animación suave al cambiar */
+            outline: none;  /* Sin borde cuando haces clic */
+        }
+
+        /* Cuando haces clic en un input */
+        .form-input:focus {
+            background: white;  /* Fondo completamente blanco */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
+            transform: translateY(-2px);  /* Se mueve un poquito hacia arriba */
+        }
+
+        /* El texto que aparece cuando el input está vacío */
+        .form-input::placeholder {
+            color: #999;  /* Color gris */
+            font-style: italic;  /* Letra inclinada */
+        }
+
+        /* Estilo especial para el menú desplegable (select) */
+        select.form-input {
+            padding-left: 15px;  /* Espacio a la izquierda */
+            padding-right: 45px;  /* Espacio a la derecha para la flecha */
+            text-align: left;  /* Texto hacia la izquierda */
+            background-image: url("../static/images/images_registrar_chiquillo/flecha_dropdown.png");  /* La flechita */
+            background-position: right 15px center;  /* Posición de la flecha */
+            background-repeat: no-repeat;  /* Que no se repita la imagen */
+            background-size: 16px;  /* Tamaño de la flecha */
+            appearance: none;  /* Quitar el estilo por defecto */
+            -webkit-appearance: none;  /* Para navegadores webkit */
+            -moz-appearance: none;  /* Para Firefox */
+            transition: none;  /* Sin animación */
+        }
+
+        /* Cuando haces clic en el select */
+        select.form-input:focus {
+            background-image: url("../static/images/images_registrar_chiquillo/flecha_dropdown.png");  /* Mantener la flecha */
+            background-position: right 15px center;  /* Mantener posición */
+            background-repeat: no-repeat;  /* Que no se repita */
+            background-size: 16px;  /* Mantener tamaño */
+            transform: none;  /* Sin movimiento */
+        }
+
+        /* El enlace que dice "¿Ya tienes una cuenta?" */
+        .login-link {
+            text-align: center;  /* Centrado */
+            margin: 5px 0 0 0;  /* Un poquito de espacio arriba */
+        }
+
+        /* El texto del enlace */
+        .login-link a {
+            color: white;  /* Texto blanco */
+            font-size: 1rem;  /* Tamaño normal */
+            text-decoration: underline;  /* Subrayado */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+            transition: all 0.3s ease;  /* Animación suave */
+            font-weight: normal;  /* Peso normal */
+        }
+
+        /* Cuando pasas el mouse por el enlace */
+        .login-link a:hover {
+            color: #E0F6FF;  /* Color azul clarito */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Sombra más fuerte */
+        }
+
+        /* El botón rosa de "Empezar" */
+        .submit-button {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);  /* Fondo rosa bonito que cambia de tono */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 18px 40px;  /* Espacio adentro */
+            border-radius: 50px;  /* Esquinas redonditas */
+            font-size: 1.4rem;  /* Letra grande */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 10px;  /* Espacio arriba */
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .submit-button:hover {
+            background: linear-gradient(135deg, #C71585, #FF1493);  /* Rosa más oscuro */
+            transform: translateY(-3px);  /* Se mueve hacia arriba */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .submit-button:active {
+            transform: translateY(-1px);  /* Se mueve menos hacia arriba */
+        }
+
+        /* Estilos para el sistema de contraseña con animales (esto es lo más complicado) */
+        
+        /* La caja donde aparecen los animales que vas eligiendo para tu contraseña */
+        .password-display {
+            min-height: 80px;  /* Altura mínima */
+            padding: 15px;  /* Espacio adentro */
+            border: 2px dashed rgba(255, 255, 255, 0.5);  /* Borde punteado blanco */
+            border-radius: 12px;  /* Esquinas redonditas */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo transparente */
+            backdrop-filter: blur(10px);  /* Efecto borroso del fondo */
+            display: flex;  /* Para acomodar los animales */
+            flex-wrap: wrap;  /* Que se acomoden en varias líneas si es necesario */
+            gap: 8px;  /* Espacio entre animales */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            margin-bottom: 15px;  /* Espacio abajo */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* El texto que aparece cuando no has elegido ningún animal */
+        .password-hint {
+            color: rgba(255, 255, 255, 0.7);  /* Blanco transparente */
+            font-style: italic;  /* Letra inclinada */
+            font-size: 1rem;  /* Tamaño normal */
+            text-align: center;  /* Centrado */
+        }
+
+        /* Cada animal que eliges para la contraseña */
+        .selected-animal {
+            width: 50px;  /* Ancho del animal */
+            height: 50px;  /* Alto del animal */
+            border-radius: 10px;  /* Esquinas redonditas */
+            object-fit: cover;  /* Que la imagen se ajuste bien */
+            border: 3px solid rgba(255, 255, 255, 0.9);  /* Borde blanco */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);  /* Sombra bonita */
+            animation: animalAppear 0.3s ease-out;  /* Animación cuando aparece */
+        }
+
+        /* Animación para cuando aparece un animal en la contraseña */
+        @keyframes animalAppear {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }  /* Empieza pequeño y girando */
+            50% { transform: scale(1.2) rotate(90deg); opacity: 0.8; }  /* Se hace grande y gira */
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }  /* Termina en tamaño normal */
+        }
+
+        /* La caja donde están los 4 animales para elegir */
+        .animal-selector {
+            display: grid;  /* Para acomodar en cuadrícula */
+            grid-template-columns: repeat(2, 1fr);  /* 2 columnas del mismo tamaño */
+            gap: 15px;  /* Espacio entre animales */
+            margin-bottom: 15px;  /* Espacio abajo */
+            padding: 20px;  /* Espacio adentro */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo transparente */
+            border-radius: 15px;  /* Esquinas redonditas */
+            backdrop-filter: blur(10px);  /* Efecto borroso del fondo */
+        }
+
+        /* Cada opción de animal (el checkbox que no se ve) */
+        .animal-option {
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            display: block;  /* Que ocupe todo el espacio */
+        }
+
+        /* Los checkbox reales (están escondidos) */
+        .animal-option input[type="checkbox"] {
+            display: none;  /* No se ven */
+        }
+
+        /* El botón bonito de cada animal */
+        .animal-btn {
+            display: flex;  /* Para acomodar imagen y texto */
+            flex-direction: column;  /* En columna */
+            align-items: center;  /* Centrar horizontal */
+            gap: 8px;  /* Espacio entre imagen y texto */
+            padding: 15px;  /* Espacio adentro */
+            border-radius: 15px;  /* Esquinas redonditas */
+            background: rgba(255, 255, 255, 0.9);  /* Fondo blanco casi transparente */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* Sombra bonita */
+            transition: all 0.3s ease;  /* Animación suave */
+            border: 3px solid transparent;  /* Borde transparente (para cuando se selecciona) */
+        }
+
+        /* Cuando pasas el mouse por un animal */
+        .animal-btn:hover {
+            transform: translateY(-5px) scale(1.05);  /* Se mueve hacia arriba y se hace un poco más grande */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);  /* Sombra más fuerte */
+            background: rgba(255, 255, 255, 1);  /* Fondo completamente blanco */
+        }
+
+        /* Cuando seleccionas un animal (checkbox marcado) */
+        .animal-option input[type="checkbox"]:checked + .animal-btn {
+            border-color: #4CAF50;  /* Borde verde */
+            background: rgba(76, 175, 80, 0.2);  /* Fondo verde transparente */
+            transform: scale(1.1);  /* Se hace un poco más grande */
+        }
+
+        /* La imagen de cada animal */
+        .animal-btn img {
+            width: 60px;  /* Ancho de la imagen */
+            height: 60px;  /* Alto de la imagen */
+            object-fit: cover;  /* Que la imagen se ajuste bien */
+            border-radius: 10px;  /* Esquinas redonditas */
+        }
+
+        /* El nombre de cada animal */
+        .animal-btn span {
+            color: #333;  /* Color gris oscuro */
+            font-weight: bold;  /* Negritas */
+            font-size: 1rem;  /* Tamaño normal */
+            text-transform: capitalize;  /* Primera letra mayúscula */
+        }
+
+        /* El botón rojo para borrar la contraseña */
+        .clear-password-btn {
+            width: 100%;  /* Que ocupe todo el ancho */
+            padding: 12px 20px;  /* Espacio adentro */
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);  /* Fondo rojo bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            border-radius: 25px;  /* Esquinas redonditas */
+            font-size: 1rem;  /* Tamaño normal */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-bottom: 10px;  /* Espacio abajo */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón de borrar */
+        .clear-password-btn:hover {
+            background: linear-gradient(135deg, #ff5252, #f44336);  /* Rojo más oscuro */
+            transform: translateY(-2px);  /* Se mueve hacia arriba */
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);  /* Sombra roja */
+        }
+
+        /* Cada formulario individual de un niño */
+        .chiquillo-form {
+            border: 2px solid rgba(255, 255, 255, 0.3);  /* Borde blanco transparente */
+            border-radius: 15px;  /* Esquinas redonditas */
+            padding: 20px;  /* Espacio adentro */
+            margin-bottom: 20px;  /* Espacio abajo */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo transparente */
+            backdrop-filter: blur(10px);  /* Efecto borroso del fondo */
+            position: relative;  /* Para poder poner cosas encima */
+        }
+
+        /* El título que dice "Niño 1", "Niño 2", etc */
+        .chiquillo-title {
+            color: white;  /* Texto blanco */
+            font-size: 1.8rem;  /* Grande */
+            font-weight: bold;  /* Negritas */
+            text-align: center;  /* Centrado */
+            margin-bottom: 20px;  /* Espacio abajo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra del texto */
+        }
+
+        /* Las animaciones que hacen que las cosas se muevan */
+        
+        /* Animación para que el ajolote flote arriba y abajo */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);  /* En su posición normal */
+            }
+            50% {
+                transform: translateY(-15px);  /* Se mueve hacia arriba */
+            }
+        }
+
+        /* Animación para que el título aparezca desde arriba */
+        @keyframes slideDown {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(-30px);  /* Empieza más arriba */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+
+        /* Animación para que el formulario aparezca desde abajo */
+        @keyframes slideUp {
+            from {
+                opacity: 0;  /* Empieza invisible */
+                transform: translateY(30px);  /* Empieza más abajo */
+            }
+            to {
+                opacity: 1;  /* Termina visible */
+                transform: translateY(0);  /* Termina en su lugar */
+            }
+        }
+
+        /* Estilos adicionales para el sistema de contraseña con animales */
+        
+        /* La caja donde aparecen los animales (versión alternativa) */
+        .password-display {
+            min-height: 60px;  /* Altura mínima más pequeña */
+            padding: 10px 15px;  /* Menos espacio adentro */
+            border: 2px dashed rgba(255, 255, 255, 0.5);  /* Borde punteado */
+            border-radius: 12px;  /* Esquinas redonditas */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo transparente */
+            backdrop-filter: blur(10px);  /* Efecto borroso */
+            display: flex;  /* Para acomodar elementos */
+            flex-wrap: wrap;  /* Que se acomoden en varias líneas */
+            gap: 8px;  /* Espacio entre elementos */
+            align-items: center;  /* Centrar vertical */
+            margin-bottom: 10px;  /* Espacio abajo */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando la caja está vacía, muestra este texto */
+        .password-display:empty::before {
+            content: "Haz clic en los animales para crear tu contraseña";  /* El texto que aparece */
+            color: rgba(255, 255, 255, 0.7);  /* Color blanco transparente */
+            font-style: italic;  /* Letra inclinada */
+            font-size: 0.9rem;  /* Tamaño un poco más pequeño */
+        }
+
+        /* Cada animal en la contraseña (versión más pequeña) */
+        .password-animal {
+            width: 35px;  /* Ancho más pequeño */
+            height: 35px;  /* Alto más pequeño */
+            border-radius: 8px;  /* Esquinas redonditas */
+            object-fit: cover;  /* Que la imagen se ajuste bien */
+            border: 2px solid rgba(255, 255, 255, 0.8);  /* Borde blanco */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra más suave */
+            animation: animalPop 0.3s ease-out;  /* Animación cuando aparece */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse por un animal en la contraseña */
+        .password-animal:hover {
+            transform: scale(1.1);  /* Se hace un poco más grande */
+            border-color: #ff6b6b;  /* Borde rojo */
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);  /* Sombra roja */
+        }
+
+        /* Animación para cuando aparece un animal (versión alternativa) */
+        @keyframes animalPop {
+            0% { transform: scale(0); opacity: 0; }  /* Empieza invisible y pequeño */
+            50% { transform: scale(1.1); opacity: 0.8; }  /* Se hace grande */
+            100% { transform: scale(1); opacity: 1; }  /* Termina en tamaño normal */
+        }
+
+        /* Controles adicionales para formas y botones */
+        .shape-controls {
+            display: grid;  /* Para acomodar en cuadrícula */
+            grid-template-columns: repeat(4, 1fr);  /* 4 columnas del mismo tamaño */
+            gap: 10px;  /* Espacio entre elementos */
+            margin-top: 10px;  /* Espacio arriba */
+            padding: 15px;  /* Espacio adentro */
+            background: rgba(255, 255, 255, 0.1);  /* Fondo transparente */
+            border-radius: 12px;  /* Esquinas redonditas */
+            backdrop-filter: blur(10px);  /* Efecto borroso */
+        }
+
+        /* Botones individuales de formas */
+        .shape-btn {
+            width: 45px;  /* Ancho fijo */
+            height: 45px;  /* Alto fijo */
+            border: none;  /* Sin borde */
+            border-radius: 12px;  /* Esquinas redonditas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            transition: all 0.3s ease;  /* Animación suave */
+            display: flex;  /* Para centrar contenido */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            background: rgba(255, 255, 255, 0.9);  /* Fondo blanco casi transparente */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);  /* Sombra bonita */
+            overflow: hidden;  /* Que no se salga el contenido */
+        }
+
+        /* Imágenes dentro de los botones de animales */
+        .shape-btn.animal img {
+            width: 35px;  /* Ancho de la imagen */
+            height: 35px;  /* Alto de la imagen */
+            object-fit: cover;  /* Que la imagen se ajuste bien */
+            border-radius: 6px;  /* Esquinas redonditas */
+        }
+
+        /* Cuando pasas el mouse por un botón de forma */
+        .shape-btn:hover {
+            transform: translateY(-2px) scale(1.1);  /* Se mueve hacia arriba y se hace más grande */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra más fuerte */
+            background: rgba(255, 255, 255, 1);  /* Fondo completamente blanco */
+        }
+
+        /* Cuando haces clic en un botón de forma */
+        .shape-btn:active {
+            transform: translateY(-1px) scale(1.05);  /* Se mueve menos y se hace un poco más grande */
+        }
+
+        /* El botón especial para limpiar (ocupa 4 columnas) */
+        .clear-btn {
+            grid-column: span 4;  /* Ocupa las 4 columnas */
+            width: 100%;  /* Ancho completo */
+            height: 40px;  /* Alto fijo */
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);  /* Fondo rojo bonito */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            border-radius: 20px;  /* Esquinas redonditas */
+            font-size: 1rem;  /* Tamaño normal */
+            font-weight: bold;  /* Negritas */
+            cursor: pointer;  /* Manita cuando pasas el mouse */
+            margin-top: 8px;  /* Espacio arriba */
+            transition: all 0.3s ease;  /* Animación suave */
+            text-transform: uppercase;  /* Todo en mayúsculas */
+            letter-spacing: 1px;  /* Espacio entre letras */
+        }
+
+        /* Cuando pasas el mouse por el botón de limpiar */
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #ff5252, #f44336);  /* Rojo más oscuro */
+            transform: translateY(-2px);  /* Se mueve hacia arriba */
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);  /* Sombra roja */
+        }
+    </style>
+</head>
+<body>
+    <!-- El botón para regresar al registro de tutor -->
+    <div class="close-button" onclick="window.location.href='/registrar_tutor'">
+        <img src="../static/images/images_registrar_chiquillo/regresar.png" alt="Regresar">
+    </div>
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La parte izquierda con el ajolote -->
+        <div class="ajolote-section">
+            <!-- El ajolote con paleta que flota -->
+            <div class="ajolote-character">
+                <img src="../static/images/images_registrar_chiquillo/ajolote_paleta.png" alt="Ajolote">
+            </div>
+            
+            <!-- Los botones que están debajo del ajolote -->
+            <div class="ajolote-actions">
+                <!-- El botón rosa de "Empezar" (está conectado con el formulario) -->
+                <button type="submit" class="submit-button" form="registro-form">Empezar</button>
+                
+                <!-- El enlace para ir a iniciar sesión -->
+                <div class="login-link">
+                    <a href="/iniciar_sesion">¿Ya tienes una cuenta?</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- La parte derecha con el formulario -->
+        <div class="form-section">
+            <!-- El título grande -->
+            <h1 class="form-title">Registrar Niños</h1>
+            
+            <!-- El formulario que se envía al servidor -->
+            <form class="form-container" id="registro-form" action="/registrar_chiquillo" method="POST">
+                <!-- Contenedor para varios niños (solo hay uno por ahora) -->
+                <div id="chiquillos-container">
+                    <!-- El formulario del primer niño -->
+                    <div class="chiquillo-form" data-chiquillo="1">
+                        <!-- Título del niño -->
+                        <h3 class="chiquillo-title">Niño 1</h3>
+                        
+                        <!-- Campo para elegir si es niño o niña -->
+                        <div class="form-group">
+                            <!-- Etiqueta del campo -->
+                            <label class="form-label" for="tipo-usuario-1">¿Qué eres?</label>
+                            <!-- Menú desplegable para elegir -->
+                            <select 
+                                id="tipo-usuario-1" 
+                                name="tipo_usuario_1" 
+                                class="form-input" 
+                                required
+                            >
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Ajolotito">Ajolotito</option>
+                                <option value="Ajolotita">Ajolotita</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo para escribir el nombre del niño -->
+                        <div class="form-group">
+                            <label class="form-label" for="nombre-1">Nombre:</label>
+                            <input 
+                                type="text" 
+                                id="nombre-1" 
+                                name="nombre_1" 
+                                class="form-input" 
+                                placeholder="Escribe el nombre"
+                                required
+                            >
+                        </div>
+
+                        <!-- Campo para escribir los apellidos del niño -->
+                        <div class="form-group">
+                            <label class="form-label" for="apellidos-1">Primer Apellido y Segundo Apellido:</label>
+                            <input 
+                                type="text" 
+                                id="apellidos-1" 
+                                name="apellidos_1" 
+                                class="form-input" 
+                                placeholder="Escribe los apellidos"
+                                required
+                            >
+                        </div>
+
+                        <!-- Campo especial para crear contraseña con animalitos -->
+                        <div class="form-group">
+                            <label class="form-label" for="contraseña-1">Selecciona tu contraseña con animales (4 animales):</label>
+                            
+                            <!-- Área donde se muestran los animales que el niño eligió -->
+                            <div class="password-display" id="password-display-1">
+                                <span class="password-hint">Haz clic en los animales para crear tu contraseña (necesitas 4)</span>
+                            </div>
+                            
+                            <!-- Campo oculto que guarda la contraseña real -->
+                            <input 
+                                type="hidden" 
+                                id="contraseña-1" 
+                                name="contraseña_1" 
+                                required
+                            >
+                            
+                            <!-- Los botones de animales para crear la contraseña -->
+                            <div class="animal-selector">
+                                <!-- Botón del ajolote -->
+                                <label class="animal-option">
+                                    <!-- Checkbox invisible que se activa al hacer clic -->
+                                    <input type="checkbox" name="animal-ajolote-1" value="ajolote">
+                                    <!-- El botón que se ve con la imagen del ajolote -->
+                                    <div class="animal-btn">
+                                        <img src="../static/images/images_emojis/ajolote_cara.png" alt="Ajolote">
+                                        <span>Ajolote</span>
+                                    </div>
+                                </label>
+                                
+                                <!-- Botón del borreguito -->
+                                <label class="animal-option">
+                                    <!-- Checkbox invisible para el borrego -->
+                                    <input type="checkbox" name="animal-borrego-1" value="borrego">
+                                    <!-- El botón que se ve con la imagen del borrego -->
+                                    <div class="animal-btn">
+                                        <img src="../static/images/images_emojis/borrego_cara.png" alt="Borrego">
+                                        <span>Borrego</span>
+                                    </div>
+                                </label>
+                                
+                                <!-- Botón del osito -->
+                                <label class="animal-option">
+                                    <!-- Checkbox invisible para el oso -->
+                                    <input type="checkbox" name="animal-oso-1" value="oso">
+                                    <!-- El botón que se ve con la imagen del oso -->
+                                    <div class="animal-btn">
+                                        <img src="../static/images/images_emojis/oso.png" alt="Oso">
+                                        <span>Oso</span>
+                                    </div>
+                                </label>
+                                
+                                <!-- Botón del perrito -->
+                                <label class="animal-option">
+                                    <!-- Checkbox invisible para el perro -->
+                                    <input type="checkbox" name="animal-perro-1" value="perro">
+                                    <!-- El botón que se ve con la imagen del perro -->
+                                    <div class="animal-btn">
+                                        <img src="../static/images/images_emojis/perro.png" alt="Perro">
+                                        <span>Perro</span>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <!-- Botón para borrar la contraseña y empezar de nuevo -->
+                            <button type="button" class="clear-password-btn" onclick="clearPassword()">Borrar Contraseña</button>
+                            
+                            <!-- Instrucciones pequeñitas para el niño -->
+                            <small style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: 5px; display: block;">
+                                Selecciona exactamente 4 animales. Puedes repetir el mismo animal.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- El código JavaScript que hace funcionar la contraseña de animales -->
+    <script>
+        // Variables globales para manejar los animales seleccionados
+        let selectedAnimals = [];  // Lista vacía donde guardaremos los animales elegidos
+        const maxAnimals = 4;      // El máximo de animales permitidos (4)
+
+        // Función que se ejecuta cuando el niño hace clic en un animal
+        document.addEventListener('change', function(e) {
+            // Verificamos si lo que clickeó fue un checkbox de animal
+            if (e.target.type === 'checkbox' && e.target.name.startsWith('animal-')) {
+                const animalType = e.target.value;  // Qué animal eligió (ajolote, borrego, etc.)
+                const passwordDisplay = document.getElementById('password-display-1');  // Donde se muestran los animales
+                const hiddenInput = document.getElementById('contraseña-1');  // El campo oculto con la contraseña
+                
+                // Si el niño marcó el checkbox (seleccionó el animal)
+                if (e.target.checked) {
+                    // Solo añadimos si no ha llegado al límite de 4 animales
+                    if (selectedAnimals.length < maxAnimals) {
+                        selectedAnimals.push(animalType);  // Añadimos el animal a la lista
+                        addAnimalToDisplay(animalType, passwordDisplay);  // Lo mostramos en pantalla
+                    } else {
+                        // Si ya tiene 4, desmarcamos el checkbox y avisamos
+                        e.target.checked = false;
+                        alert('Solo puedes seleccionar máximo 4 animales');
+                    }
+                } else {
+                    // Si desmarcó el checkbox, quitamos el animal
+                    const index = selectedAnimals.indexOf(animalType);  // Buscamos el animal en la lista
+                    if (index > -1) {
+                        selectedAnimals.splice(index, 1);  // Lo quitamos de la lista
+                        removeAnimalFromDisplay(animalType, passwordDisplay);  // Lo quitamos de la pantalla
+                    }
+                }
+                
+                // Actualizamos el campo oculto con la contraseña final
+                hiddenInput.value = selectedAnimals.join(',');
+                
+                // Actualizamos lo que se ve en pantalla
+                updatePasswordDisplay(passwordDisplay);
+            }
+        });
+
+        // Función para añadir un animal a la pantalla
+        function addAnimalToDisplay(animalType, display) {
+            const img = document.createElement('img');  // Creamos una nueva imagen
+            let imageName = 'perro.png';  // Por defecto es perro
+            
+            // Elegimos la imagen correcta según el animal
+            if (animalType === 'ajolote') imageName = 'ajolote_cara.png';
+            else if (animalType === 'borrego') imageName = 'borrego_cara.png';
+            else if (animalType === 'oso') imageName = 'oso.png';
+            
+            // Configuramos la imagen del animal
+            img.src = '../static/images/images_emojis/' + imageName;  // Ruta de la imagen
+            img.alt = animalType;  // Texto alternativo
+            img.className = 'selected-animal';  // Clase CSS para darle estilo
+            
+            // Cuando hagan clic en la imagen, se puede quitar
+            img.onclick = function() {
+                removeSpecificAnimal(animalType, this);
+            };
+            
+            // Añadimos la imagen al área de visualización
+            display.appendChild(img);
+        }
+
+        // Función para quitar un animal de la pantalla
+        function removeAnimalFromDisplay(animalType, display) {
+            const animals = display.querySelectorAll('.selected-animal');  // Encontramos todos los animales
+            
+            // Buscamos el primer animal de este tipo y lo quitamos
+            for (let animal of animals) {
+                if (animal.alt === animalType) {
+                    animal.remove();  // Lo eliminamos de la pantalla
+                    break;  // Solo quitamos uno
+                }
+            }
+        }
+
+        // Función para quitar un animal específico cuando hacen clic en él
+        function removeSpecificAnimal(animalType, element) {
+            const index = selectedAnimals.indexOf(animalType);  // Buscamos el animal en la lista
+            if (index > -1) {
+                selectedAnimals.splice(index, 1);  // Lo quitamos de la lista
+                element.remove();  // Lo quitamos de la pantalla
+                
+                // Actualizamos el campo oculto con la nueva contraseña
+                document.getElementById('contraseña-1').value = selectedAnimals.join(',');
+                
+                // Si ya no hay más de este animal, desmarcamos el checkbox
+                if (!selectedAnimals.includes(animalType)) {
+                    const checkbox = document.querySelector('input[value="' + animalType + '"]');
+                    if (checkbox) checkbox.checked = false;
+                }
+                
+                // Actualizamos lo que se ve en pantalla
+                updatePasswordDisplay(document.getElementById('password-display-1'));
+            }
+        }
+
+        // Función para actualizar el mensaje que ve el niño
+        function updatePasswordDisplay(display) {
+            const hint = display.querySelector('.password-hint');  // Buscamos el mensaje de ayuda
+            
+            // Si no hay animales seleccionados, mostramos el mensaje inicial
+            if (selectedAnimals.length === 0) {
+                if (!hint) {
+                    const span = document.createElement('span');
+                    span.className = 'password-hint';
+                    span.textContent = 'Haz clic en los animales para crear tu contraseña (necesitas 4)';
+                    display.appendChild(span);  // Lo añadimos a la pantalla
+                }
+            } else {
+                // Si ya hay animales, quitamos el mensaje de ayuda
+                if (hint) hint.remove();
+            }
+        }
+
+        // Función para borrar toda la contraseña y empezar de nuevo
+        function clearPassword() {
+            selectedAnimals = [];  // Vaciamos la lista de animales
+            const display = document.getElementById('password-display-1');  // El área donde se muestran
+            const hiddenInput = document.getElementById('contraseña-1');  // El campo oculto
+            
+            // Limpiamos la pantalla
+            display.innerHTML = '';
+            
+            // Limpiamos el campo oculto
+            hiddenInput.value = '';
+            
+            // Desmarcamos todos los checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            
+            // Volvemos a mostrar el mensaje de ayuda
+            updatePasswordDisplay(display);
+        }
+
+        // Validación del formulario antes de enviarlo
+        document.getElementById('registro-form').addEventListener('submit', function(e) {
+            // Verificamos que haya exactamente 4 animales seleccionados
+            if (selectedAnimals.length !== maxAnimals) {
+                e.preventDefault();  // Detenemos el envío del formulario
+                alert('Debes seleccionar exactamente ' + maxAnimals + ' animales para la contraseña.');
+            }
+        });
+    </script>
+</body>
+</html>

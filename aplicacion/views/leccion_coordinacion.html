@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Esto le dice al navegador qué tipo de caracteres usar (acentos, ñ, etc.) -->
+    <meta charset="UTF-8">
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Lección Coordinación - Adiós al Silencio</title>
+    <style>
+        /* Esto es para que todo empiece sin espacios ni márgenes raros */
+        * {
+            margin: 0;  /* Sin espacios por fuera */
+            padding: 0;  /* Sin espacios por dentro */
+            box-sizing: border-box;  /* Que todo se calcule bien */
+        }
+
+        /* Así se ve toda la página */
+        body {
+            font-family: Arial, sans-serif;  /* Letra normal y fácil de leer */
+            background: #00BFFF;  /* Fondo azul como el cielo */
+            min-height: 100vh;  /* Que ocupe toda la pantalla */
+            display: flex;  /* Para acomodar las cosas */
+            align-items: center;  /* Centrar vertical */
+            justify-content: center;  /* Centrar horizontal */
+            overflow: hidden;  /* Para que no salga scroll */
+        }
+
+        /* La caja principal que contiene todo */
+        .container {
+            display: flex;  /* Para acomodar las cosas una al lado de la otra */
+            align-items: center;  /* Centrar vertical */
+            justify-content: space-between;  /* Separar las cosas con espacio */
+            width: 100%;  /* Que use todo el ancho */
+            max-width: 1200px;  /* Pero no más de 1200 pixeles */
+            padding: 40px;  /* Espacio adentro */
+            gap: 80px;  /* Espacio entre las secciones */
+        }
+
+        /* La sección donde está el ajolote */
+        .character-section {
+            flex: 1;  /* Que ocupe la mitad del espacio */
+            display: flex;  /* Para centrar al ajolote */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* El ajolote que está jugando */
+        .axolotl-character {
+            width: 450px;  /* Ancho del ajolote */
+            height: 450px;  /* Alto del ajolote */
+            display: flex;  /* Para centrar la imagen */
+            justify-content: center;  /* Centrar horizontal */
+            align-items: center;  /* Centrar vertical */
+        }
+
+        /* La imagen del ajolote */
+        .axolotl-character img {
+            width: 100%;  /* Que ocupe todo el espacio */
+            height: 100%;  /* Mismo alto */
+            object-fit: contain;  /* Para que la imagen se vea bien sin deformarse */
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));  /* Sombra bonita */
+        }
+
+        /* La sección donde está el mensaje */
+        .message-section {
+            flex: 1;  /* Que ocupe la otra mitad del espacio */
+            display: flex;  /* Para acomodar las cosas */
+            flex-direction: column;  /* Todo en columna */
+            align-items: center;  /* Centrar horizontal */
+            gap: 50px;  /* Espacio entre mensaje y botón */
+            text-align: center;  /* Texto centrado */
+        }
+
+        /* El texto del mensaje */
+        .message-text {
+            color: white;  /* Texto blanco */
+            font-size: 2.8rem;  /* Texto bien grande */
+            font-weight: bold;  /* En negritas */
+            line-height: 1.3;  /* Espaciado entre líneas */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra para que se vea mejor */
+            max-width: 600px;  /* Ancho máximo del texto */
+        }
+
+        /* El botón para regresar */
+        .back-button {
+            background: #FF1493;  /* Fondo rosa fuerte */
+            color: white;  /* Texto blanco */
+            border: none;  /* Sin borde */
+            padding: 20px 80px;  /* Espacio dentro del botón */
+            font-size: 1.8rem;  /* Texto grande */
+            font-weight: bold;  /* En negritas */
+            border-radius: 50px;  /* Muy redondeado */
+            cursor: pointer;  /* Manita cuando lo toques */
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);  /* Sombra rosa */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        /* Cuando pasas el mouse por el botón */
+        .back-button:hover {
+            background: #C71585;  /* Rosa más oscuro */
+            transform: translateY(-2px);  /* Se eleva un poquito */
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);  /* Sombra más fuerte */
+        }
+
+        /* Cuando haces clic en el botón */
+        .back-button:active {
+            transform: translateY(0);  /* Vuelve a su posición normal */
+        }
+    </style>
+</head>
+<body>
+    <!-- La caja principal que contiene todo -->
+    <div class="container">
+        <!-- La sección donde está el ajolote -->
+        <div class="character-section">
+            <div class="axolotl-character">
+                <!-- La imagen del ajolote jugando -->
+                <img src="../static/images/images_leccion_coordinacion/ajolote_jugando.png" alt="Ajolote Jugando">
+            </div>
+        </div>
+
+        <!-- La sección del mensaje y el botón -->
+        <div class="message-section">
+            <!-- El mensaje que aparece -->
+            <div class="message-text">
+                Tranqui, estamos trabajando para darte el mejor aprendizaje de la Lengua de Señas Mexicana
+            </div>
+            
+            <!-- El botón para volver a las lecciones -->
+            <button class="back-button" onclick="window.location.href='/lecciones'">
+                Volver
+            </button>
+        </div>
+    </div>
+</body>
+</html>
