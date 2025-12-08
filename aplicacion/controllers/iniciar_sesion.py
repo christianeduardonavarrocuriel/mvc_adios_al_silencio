@@ -1,7 +1,7 @@
 import os
 import web
-from models.db import conectar_db
-from controllers.sessions import set_nino_session
+from models.db import obtener_nino_login
+from controllers.sessions import set_nino_session, absolute_url
 
 # Local render setup
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,35 +20,29 @@ class IniciarSesion:
 
         print(f"[LOGIN] Datos recibidos -> nombre='{nombre}' apellidos='{apellidos}' password='{password_animales}'")
         if not (nombre and apellidos and password_animales):
-            raise web.seeother('/iniciar_sesion?error=campos')
+            raise web.seeother(absolute_url('/iniciar_sesion?error=campos'))
 
         animales = [a for a in password_animales.split(',') if a]
         permitidos = {'ajolote','borrego','oso','perro'}
         if len(animales) != 4:
-            raise web.seeother('/iniciar_sesion?error=pass')
+            raise web.seeother(absolute_url('/iniciar_sesion?error=pass'))
         if any(a not in permitidos for a in animales):
-            raise web.seeother('/iniciar_sesion?error=animales')
+            raise web.seeother(absolute_url('/iniciar_sesion?error=animales'))
 
         try:
-            conn = conectar_db()
-            cur = conn.cursor()
-            cur.execute('''SELECT id_nino, nombres, apellidos, id_tutor, password_figuras FROM ninos
-                           WHERE lower(nombres)=? AND lower(apellidos)=? AND password_figuras=? LIMIT 1''',
-                        (nombre.lower(), apellidos.lower(), password_animales))
-            row = cur.fetchone()
-            conn.close()
+            row = obtener_nino_login(nombre, apellidos, password_animales)
 
             print(f"[LOGIN] Resultado query -> {row}")
             if not row:
-                raise web.seeother('/iniciar_sesion?error=credenciales')
+                raise web.seeother(absolute_url('/iniciar_sesion?error=credenciales'))
 
             sess = getattr(web.ctx, 'session', None)
             set_nino_session(sess, row)
             activo = bool(getattr(sess,'nino_activo',False) or getattr(sess,'nino_id',None))
             print(f"[LOGIN OK] Niño autenticado id={row[0]} nombre='{row[1]}' sesion_activa={activo}")
-            raise web.seeother('/saludo_chiquillo')
+            raise web.seeother(absolute_url('/saludo_chiquillo'))
         except web.HTTPError:
             raise
         except Exception as e:
             print('Error autenticando niño:', e)
-            raise web.seeother('/iniciar_sesion?error=sistema')
+            raise web.seeother(absolute_url('/iniciar_sesion?error=sistema'))

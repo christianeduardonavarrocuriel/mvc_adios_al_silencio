@@ -1,5 +1,21 @@
 import web
 
+def absolute_url(path: str) -> str:
+    """Construye URL absoluta usando los encabezados del proxy para evitar duplicar puertos."""
+    try:
+        env = getattr(web.ctx, 'env', {}) or {}
+        proto = env.get('HTTP_X_FORWARDED_PROTO') or env.get('wsgi.url_scheme') or 'http'
+        host = env.get('HTTP_X_FORWARDED_HOST') or env.get('HTTP_HOST') or ''
+        if not host:
+            return path
+        if path.startswith('http://') or path.startswith('https://'):
+            return path
+        if not path.startswith('/'):
+            path = '/' + path
+        return f"{proto}://{host}{path}"
+    except Exception:
+        return path
+
 # Helpers de sesión para niño y tutor/admin
 
 def set_nino_session(session, row):

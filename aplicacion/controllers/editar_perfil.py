@@ -1,6 +1,7 @@
 import os
 import web
-from models.db import conectar_db
+from models.db import actualizar_tutor
+from controllers.sessions import absolute_url
 
 # Local render setup
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,14 +28,14 @@ class EditarPerfil:
         if len(password) != 6:
             return "Error: La contraseña debe tener exactamente 6 caracteres."
         try:
-            conn = conectar_db(); cur = conn.cursor()
-            cur.execute('''UPDATE tutores SET nombres = ?, apellidos = ?, correo = ?, rol = ?, password = ? WHERE id_tutor = ?''',
-                        (nombres, apellidos, correo, rol, password, tutor_id))
-            conn.commit(); conn.close()
+            actualizar_tutor(int(tutor_id), nombres, apellidos, correo, rol, password)
             nuevo_token = password[:3] + correo[:3]
-            raise web.seeother(f'/perfil_admin?tutor_id={tutor_id}&token={nuevo_token}')
+            raise web.seeother(absolute_url(f'/perfil_admin?tutor_id={tutor_id}&token={nuevo_token}'))
         except web.HTTPError:
             raise
         except Exception as e:
             print(f"Error actualizando perfil: {e}")
-            return "Error al actualizar el perfil."
+            mensaje = str(e)
+            if 'duplicate' in mensaje.lower() or 'unique' in mensaje.lower():
+                return "Error: El correo ya está registrado."
+            return f"Error al actualizar el perfil: {mensaje}"

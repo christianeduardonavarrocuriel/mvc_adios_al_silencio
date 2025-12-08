@@ -1,7 +1,7 @@
 import os
 import web
-from models.db import conectar_db
-from controllers.sessions import get_session_attr
+from models.db import insertar_nino, ultimo_tutor_id
+from controllers.sessions import get_session_attr, absolute_url
 
 # Local render setup
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,11 +19,8 @@ class RegistrarChiquillo:
         tutor_id = get_session_attr(sess, 'tutor_id')
         if not tutor_id:
             try:
-                conn = conectar_db(); cur = conn.cursor()
-                cur.execute('SELECT MAX(id_tutor) FROM tutores')
-                row = cur.fetchone(); conn.close()
-                tutor_id = row[0] if row and row[0] else None
-                if tutor_id:
+                tutor_id = ultimo_tutor_id()
+                if tutor_id and sess:
                     sess.tutor_id = tutor_id
             except Exception as e:
                 print('Error en id tutor:', e)
@@ -47,7 +44,6 @@ class RegistrarChiquillo:
         permitidos = {'ajolote','borrego','oso','perro'}
         registros = []
         try:
-            conn = conectar_db(); cur = conn.cursor()
             for idx in indices:
                 nombre = data.get(f'nombre_{idx}','').strip()
                 apellidos = data.get(f'apellidos_{idx}','').strip()
@@ -63,18 +59,12 @@ class RegistrarChiquillo:
                 if any(a not in permitidos for a in animales):
                     return f'Error: Niño {idx} tiene animales no permitidos.'
                 password_figuras = ','.join(animales)
-                cur.execute('''INSERT INTO ninos (id_tutor,genero,nombres,apellidos,password_figuras) VALUES (?,?,?,?,?)''',
-                            (tutor_id, genero, nombre, apellidos, password_figuras))
-                registros.append((cur.lastrowid, nombre))
-            conn.commit(); conn.close()
+                nino_id = insertar_nino(tutor_id, genero, nombre, apellidos, password_figuras)
+                registros.append((nino_id, nombre))
             print('Niños insertados:', registros, 'Tutor', tutor_id)
-            raise web.seeother('/')
+            raise web.seeother(absolute_url('/'))
         except web.HTTPError:
             raise
         except Exception as e:
             print('Error registrando niños:', e)
-            try:
-                conn.rollback(); conn.close()
-            except Exception:
-                pass
             return 'Error al registrar los niños.'

@@ -1,7 +1,6 @@
 import os
 import sys
 import web
-import sqlite3
 
 # Directorios base y recursos
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +19,7 @@ Mantén estos nombres sincronizados con los archivos reales en controllers/.
 """
 
 # Models
-from models.db import conectar_db, init_db
+from models.db import init_db
 
 # Session helpers
 from controllers.sessions import (
@@ -129,22 +128,21 @@ if __name__ == "__main__":
         init_db()
         print("Base de datos inicializada correctamente")
         
-        # Configurar puerto del servidor
-        PORT = 80
-        HOST = '127.0.0.1'
+        # Configurar puerto y host desde variables de entorno para evitar sudo
+        PORT = int(os.getenv('PORT', '8081'))
+        HOST = os.getenv('HOST', '0.0.0.0')
         
         print(f"Servidor iniciando en http://{HOST}:{PORT}")
         print("Presiona Ctrl+C para detener el servidor")
         
-        # Iniciar el servidor web
-        import sys
-        sys.argv = ['app.py', f'{HOST}:{PORT}']  # Configurar argumentos
-        app.run()  # Iniciar el servidor
+        # Iniciar el servidor web (cambiamos cwd para que los estáticos sirvan desde aplicacion/static)
+        os.chdir(BASE_DIR)
+        web.httpserver.runsimple(application, (HOST, PORT))
         
     except KeyboardInterrupt:
         print("\nServidor detenido por el usuario")  # Cuando presionan Ctrl+C
     except Exception as e:
         print(f"Error al iniciar servidor: {e}")
-        print("Verifica que el puerto 8081 no esté en uso")
+        print("Verifica que Supabase esté configurado y que el puerto 8081 no esté en uso")
         import traceback
         traceback.print_exc()  # Mostrar detalles completos del error

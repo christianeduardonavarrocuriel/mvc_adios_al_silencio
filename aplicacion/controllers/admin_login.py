@@ -1,6 +1,7 @@
 import os
 import web
-from models.db import conectar_db
+from models.db import obtener_tutor_por_correo_password
+from controllers.sessions import absolute_url
 
 # Local render setup
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,7 @@ class InicioAdministrador:
                 html_content = f.read()
             return html_content + "<script>alert('Error: Por favor ingresa tu correo y contraseña.');</script>"
         try:
-            conn = conectar_db(); cur = conn.cursor()
-            cur.execute('''SELECT id_tutor, nombres, apellidos, rol, correo, password 
-                           FROM tutores 
-                           WHERE lower(correo) = ? AND password = ? 
-                           LIMIT 1''', (correo, password))
-            tutor = cur.fetchone(); conn.close()
+            tutor = obtener_tutor_por_correo_password(correo, password)
             if tutor:
                 tutor_id, nombres, apellidos, rol, correo_db, password_db = tutor
                 sess = getattr(web.ctx, 'session', None)
@@ -37,14 +33,15 @@ class InicioAdministrador:
                 sess.tutor_rol = rol
                 sess.tutor_correo = correo_db
                 token = password[:3] + correo[:3]
-                raise web.seeother(f'/perfil_admin?tutor_id={tutor_id}&token={token}')
+                raise web.seeother(absolute_url(f'/perfil_admin?tutor_id={tutor_id}&token={token}'))
             else:
                 with open(os.path.join(TEMPLATES_DIR, 'inicio_administrador.html'), 'r', encoding='utf-8') as f:
                     html_content = f.read()
                 return html_content + "<script>alert('Error: Correo o contraseña incorrectos.');</script>"
         except web.HTTPError:
             raise
-        except Exception:
+        except Exception as e:
+            print("Error en login admin:", e)
             with open(os.path.join(TEMPLATES_DIR, 'inicio_administrador.html'), 'r', encoding='utf-8') as f:
                 html_content = f.read()
             return html_content + "<script>alert('Error del sistema. Intenta de nuevo.');</script>"

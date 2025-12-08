@@ -1,0 +1,10 @@
+.env
+.env.local
+.venv/
+__pycache__/
+*.pyc
+aplicacion/sessions/
+aplicacion/registro.db
+
+# VS Code
+.vscode/

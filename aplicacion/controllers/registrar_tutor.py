@@ -1,7 +1,7 @@
 import os
 import web  # type: ignore
-import sqlite3
-from models.db import conectar_db
+from models.db import insertar_tutor
+from controllers.sessions import absolute_url
 
 # Local template renderer for Pylance/runtime self-sufficiency
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -28,8 +28,6 @@ class RegistrarTutor:
         if '@' not in correo or '.' not in correo:
             return "Error: Formato de correo inválido."
         try:
-            conn = conectar_db()
-            cur = conn.cursor()
             if rol.lower() in ['padre','madre','padre/madre']:
                 rol_normalizado = 'Padre'
             elif rol.lower()=='tutor':
@@ -38,26 +36,17 @@ class RegistrarTutor:
                 rol_normalizado='Maestro'
             else:
                 rol_normalizado='Padre'
-            cur.execute('''INSERT INTO tutores (rol,nombres,apellidos,correo,password) VALUES (?,?,?,?,?)''',
-                        (rol_normalizado,nombres,apellidos,correo,password))
-            tutor_id = cur.lastrowid
-            conn.commit()
-            conn.close()
+
+            tutor_id = insertar_tutor(rol_normalizado, nombres, apellidos, correo, password)
             web.ctx.session.tutor_id = tutor_id
             print(f"Tutor registrado exitosamente: {tutor_id} {nombres} {apellidos} {rol_normalizado}")
-            raise web.seeother('/registrar_chiquillo')
-        except sqlite3.IntegrityError:
-            try:
-                conn.rollback(); conn.close()
-            except Exception:
-                pass
-            return "Error: El correo ya está registrado."
+            raise web.seeother(absolute_url('/registrar_chiquillo'))
         except web.HTTPError:
             raise
         except Exception as e:
-            try:
-                conn.rollback(); conn.close()
-            except Exception:
-                pass
             print("Error registrando tutor:", e)
-            return "Error al registrar el tutor."
+            mensaje = str(e)
+            lowered = mensaje.lower()
+            if 'duplicate' in lowered or 'unique' in lowered or 'correo' in lowered:
+                return "Error: El correo ya está registrado."
+            return f"Error al registrar el tutor: {mensaje}"
