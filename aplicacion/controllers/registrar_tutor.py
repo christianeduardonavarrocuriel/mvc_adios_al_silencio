@@ -14,13 +14,11 @@ class RegistrarTutor:
 
     def POST(self):
         data = web.input()
-        print("Información del tutor recibida:", dict(data))
         nombres = data.get('nombres','').strip()
         apellidos = data.get('apellidos','').strip()
         correo = data.get('correo','').strip().lower()
         password = data.get('password','').strip()
         rol = data.get('rol','').strip()
-        print(f"Información procesada -> nombres='{nombres}' apellidos='{apellidos}' correo='{correo}' password='{password}' rol='{rol}'")
         if not all([nombres, apellidos, correo, password, rol]):
             return "Error: Todos los campos son obligatorios."
         if len(password) != 6:
@@ -39,7 +37,6 @@ class RegistrarTutor:
 
             tutor_id = insertar_tutor(rol_normalizado, nombres, apellidos, correo, password)
             web.ctx.session.tutor_id = tutor_id
-            print(f"Tutor registrado exitosamente: {tutor_id} {nombres} {apellidos} {rol_normalizado}")
             raise web.seeother(absolute_url('/registrar_chiquillo'))
         except web.HTTPError:
             raise

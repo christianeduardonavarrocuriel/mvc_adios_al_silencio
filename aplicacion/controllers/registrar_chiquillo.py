@@ -14,7 +14,6 @@ class RegistrarChiquillo:
 
     def POST(self):
         data = web.input()
-        print("Datos recibidos registrar_chiquillo:", dict(data))
         sess = getattr(web.ctx, 'session', None)
         tutor_id = get_session_attr(sess, 'tutor_id')
         if not tutor_id:
@@ -61,7 +60,7 @@ class RegistrarChiquillo:
                 password_figuras = ','.join(animales)
                 nino_id = insertar_nino(tutor_id, genero, nombre, apellidos, password_figuras)
                 registros.append((nino_id, nombre))
-            print('Niños insertados:', registros, 'Tutor', tutor_id)
+            print(f"Niños insertados: {len(registros)} para tutor {tutor_id}")
             raise web.seeother(absolute_url('/'))
         except web.HTTPError:
             raise

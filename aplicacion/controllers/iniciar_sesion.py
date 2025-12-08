@@ -18,7 +18,6 @@ class IniciarSesion:
         apellidos = data.get('primer_apellido-y-segundo-apellido','').strip()
         password_animales = (data.get('password_animales','') or data.get('contraseña','')).strip()
 
-        print(f"[LOGIN] Datos recibidos -> nombre='{nombre}' apellidos='{apellidos}' password='{password_animales}'")
         if not (nombre and apellidos and password_animales):
             raise web.seeother(absolute_url('/iniciar_sesion?error=campos'))
 
@@ -32,14 +31,12 @@ class IniciarSesion:
         try:
             row = obtener_nino_login(nombre, apellidos, password_animales)
 
-            print(f"[LOGIN] Resultado query -> {row}")
             if not row:
                 raise web.seeother(absolute_url('/iniciar_sesion?error=credenciales'))
 
             sess = getattr(web.ctx, 'session', None)
             set_nino_session(sess, row)
             activo = bool(getattr(sess,'nino_activo',False) or getattr(sess,'nino_id',None))
-            print(f"[LOGIN OK] Niño autenticado id={row[0]} nombre='{row[1]}' sesion_activa={activo}")
             raise web.seeother(absolute_url('/saludo_chiquillo'))
         except web.HTTPError:
             raise
