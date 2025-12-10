@@ -7,3 +7,4 @@ docker-compose build
 ```bash
 docker-compose up
 ```
+ docker pull christian7777/mvc_adios_al_silencio:v1
