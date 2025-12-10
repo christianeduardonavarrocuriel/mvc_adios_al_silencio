@@ -5,7 +5,7 @@ from controllers.sessions import get_session_attr, absolute_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'views')
-render = web.template.render(TEMPLATES_DIR)
+render = web.template.render(TEMPLATES_DIR, cache=False)
 
 class PerfilAdmin:
     def GET(self):

@@ -1,10 +1,15 @@
 .env
 .env.local
 .venv/
+venv/
+env/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 aplicacion/sessions/
 aplicacion/registro.db
 
 # VS Code
 .vscode/
+.idea/
