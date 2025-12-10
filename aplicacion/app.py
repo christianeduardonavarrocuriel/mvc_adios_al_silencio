@@ -129,7 +129,7 @@ if __name__ == "__main__":
         print("Base de datos inicializada correctamente")
         
         # Configurar puerto y host desde variables de entorno para evitar sudo
-        PORT = int(os.getenv('PORT', '8081'))
+        PORT = int(os.getenv('PORT', '8080'))
         HOST = os.getenv('HOST', '0.0.0.0')
         
         print(f"Servidor iniciando en http://{HOST}:{PORT}")
