@@ -1,5 +1,3 @@
-docker-compose build
-docker-compose up
 # mvc_adios_al_silencio
 
 Aplicación web sencilla basada en el patrón MVC pensada para gestionar el acceso de tutores y niños a un conjunto de vistas de lecciones e información. Incluye flujo de registro, inicio de sesión, área de administración y manejo de sesiones persistentes sobre un backend de datos en Supabase.
@@ -19,6 +17,7 @@ El objetivo del proyecto es servir como base de una plataforma educativa ligera 
 - **Base de datos / BaaS:** [Supabase](https://supabase.com/) vía SDK de Python
 - **Gestión de sesiones:** `web.session` con almacenamiento en disco
 - **Plantillas y vistas:** `web.template` con HTML en `aplicacion/views/`
+- **Modelado 3D y Realidad Aumentada (AR):** [Three.js](https://threejs.org/) y [MindAR](https://hiukim.github.io/mind-ar-js/) para el seguimiento facial y renderizado del mapache interactivo en tiempo real.
 - **Recursos estáticos:** imágenes y audio servidos desde `aplicacion/static/`
 - **Contenedores:** Docker + `docker-compose` para construcción y ejecución
 
@@ -31,7 +30,7 @@ Este proyecto aborda necesidades típicas de una aplicación web educativa bási
 - **Gestión de usuarios tutores:** registro, autenticación y edición de perfil.
 - **Asociación tutor–niño:** registro de niños vinculados a un tutor.
 - **Acceso diferenciado:** rutas y vistas para administradores/tutores y para niños.
-- **Organización de contenido educativo:** páginas de introducción, lecciones y pantallas de presentación.
+- **Organización de contenido educativo:** páginas de introducción, lecciones y pantallas de presentación. Destaca la vista interactiva de introducción (`introduccion.html`), donde se implementó un mapache interactivo para que los niños aprendan las emociones según la posición de la boca, cejas y nariz.
 - **Persistencia en la nube:** almacenamiento de tutores y niños sobre Supabase, evitando gestionar una base de datos propia.
 
 No pretende ser una solución completa en producción, sino una base clara y extensible para seguir aprendiendo sobre desarrollo web backend, manejo de sesiones y despliegue con Docker.
@@ -45,7 +44,7 @@ La carpeta principal de la aplicación es `aplicacion/`:
 - `aplicacion/app.py`: punto de entrada de la aplicación web, configuración de rutas, sesiones y servidor.
 - `aplicacion/controllers/`: controladores que manejan las rutas (inicio, registro, login, perfil, lecciones, páginas estáticas, etc.).
 - `aplicacion/models/db.py`: integración con Supabase y operaciones sobre tutores y niños.
-- `aplicacion/views/`: plantillas HTML para las distintas pantallas (inicio, introducción, lecciones, perfil administrador, registro de tutor/niño, etc.).
+- `aplicacion/views/`: plantillas HTML para las distintas pantallas (inicio, introducción, lecciones, perfil administrador, registro de tutor/niño, etc.). La vista `introduccion.html` incluye la lógica de Three.js y MindAR para el modelo 3D.
 - `aplicacion/static/`: recursos estáticos (imágenes y audio) utilizados por las vistas.
 
 En la raíz del repositorio se encuentran además:
@@ -74,7 +73,7 @@ Los controladores definidos en `aplicacion/app.py` exponen los siguientes endpoi
 | `/presentacion_lucas`   | GET              | Presentación del personaje principal.                        |
 | `/presentacion_pagina`  | GET              | Presentación general de la página.                           |
 | `/lecciones`            | GET              | Listado de lecciones disponibles.                            |
-| `/introduccion`         | GET              | Lección de introducción.                                     |
+| `/introduccion`         | GET              | Lección de introducción con un mapache interactivo para aprender emociones. |
 | `/leccion_coordinacion` | GET              | Lección de coordinación.                                     |
 | `/leccion_completada`   | GET              | Pantalla de lección completada.                              |
 | `/quienes_somos`        | GET              | Página "Quiénes somos".                                     |
